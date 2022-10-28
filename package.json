@@ -1,0 +1,27 @@
+{
+  "name": "bdcoe-control-panel",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "nodemon app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/prateek18801/bdcoe-control-panel.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/prateek18801/bdcoe-control-panel/issues"
+  },
+  "homepage": "https://github.com/prateek18801/bdcoe-control-panel#readme",
+  "dependencies": {
+    "dotenv": "^16.0.3",
+    "ejs": "^3.1.8",
+    "express": "^4.18.2",
+    "mongoose": "^6.7.0"
+  }
+}
