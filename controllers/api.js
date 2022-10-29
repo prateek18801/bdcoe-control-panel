@@ -1,5 +1,25 @@
 const Event = require('../models/event');
 const Member = require('../models/member');
+const Config = require('../models/config');
+
+exports.getStatus = async (req, res, next) => {
+    try {
+        const config = await Config.findOne({}).populate('upcoming_event', '-_id eventname description start end');
+        if(!config) {
+            const error = new Error('configuration not set');
+            error.code = 500;
+            throw error;
+        }
+        return res.status(200).json({
+            message: 'success',
+            status: config.registration,
+            event: config.upcoming_event,
+            modified: config.modified
+        });
+    } catch(err) {
+        next(err);
+    }
+}
 
 exports.getEvent = async (req, res, next) => {
     const code = req.params.code.toUpperCase();
