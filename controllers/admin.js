@@ -1,4 +1,5 @@
 const Member = require('../models/member');
+const Event = require('../models/event');
 
 exports.getMember = async (req, res, next) => {
     const stdno = req.params.id;
@@ -39,6 +40,40 @@ exports.postMemberRegistration = async (req, res, next) => {
         }
 
         const saved = await new Member({...data}).save();
+        return res.status(201).json({
+            message: 'created',
+            data: saved
+        });
+
+    } catch(err) {
+        next(err);
+    }
+}
+
+
+exports.getEvent = (req, res, next) => {
+    
+}
+
+exports.postEvent = async (req, res, next) => {
+    const data = {
+        ...req.body,
+        code:  req.body.code.toUpperCase()
+    }
+
+    try {
+
+        const existing = await Event.findOne({code: data.code});
+        if(existing) {
+            Object.keys(data).forEach(key => existing[key] = data[key]);
+            const updated = await existing.save();
+            return res.status(200).json({
+                message: 'updated',
+                data: updated
+            });
+        }
+
+        const saved = await new Event({...data}).save();
         return res.status(201).json({
             message: 'created',
             data: saved
