@@ -5,12 +5,32 @@ exports.getMemberRegistration = (req, res, next) => {
 }
 
 exports.postMemberRegistration = async (req, res, next) => {
+    
+    const data = {
+        ...req.body,
+        email: req.body.email.toLowerCase(),
+        branch: req.body.branch.toUpperCase(),
+        domain: req.body.domain.toUpperCase()
+    }
+    
     try {
-        const saved = await new Member({...req.body}).save();
-        res.status(201).json({
-            message: 'success',
-            saved
+
+        const existing = await Member.findOne({stdno: data.stdno});
+        if(existing) {
+            Object.keys(data).forEach(key => existing[key] = data[key]);
+            const updated = await existing.save();
+            return res.status(200).json({
+                message: 'updated',
+                data: updated
+            });
+        }
+
+        const saved = await new Member({...data}).save();
+        return res.status(201).json({
+            message: 'created',
+            data: saved
         });
+
     } catch(err) {
         next(err);
     }
