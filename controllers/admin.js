@@ -1,5 +1,18 @@
 const Member = require('../models/member');
 
+exports.getMember = async (req, res, next) => {
+    const stdno = req.params.id;
+    try {
+        const data = stdno ? await Member.findOne({stdno}) : await Member.find({});
+        return res.status(200).json({
+            message: 'success',
+            data
+        });
+    } catch(err) {
+        next(err.message);
+    }
+}
+
 exports.getMemberRegistration = (req, res, next) => {
     res.status(200).send('<h1>Member Registration Form</h1>');
 }
