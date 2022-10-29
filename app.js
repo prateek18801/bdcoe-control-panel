@@ -2,6 +2,7 @@ require('dotenv').config();
 const express = require('express');
 
 require('./utils/db').connect();
+const apiRouter = require('./routes/api');
 const adminRouter = require('./routes/admin');
 
 const app = express();
@@ -13,6 +14,7 @@ app.get('/', (req, res, next) => {
     res.status(200).send('server running');
 });
 
+app.use('/api', apiRouter);
 app.use('/admin', adminRouter);
 
 app.use((err, req, res, next) => {
