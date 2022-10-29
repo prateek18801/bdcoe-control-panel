@@ -33,25 +33,34 @@ const memberSchema = new mongoose.Schema({
         type: Number,
         required: true
     },
+    domain: {
+        type: String,
+        enum: ['FS', 'BE', 'FE', 'AD', 'ML', 'CP', 'DE'],
+        required: true
+    },
     coordinator: {
         type: Boolean,
         required: true
     },
     linkedin: {
         type: String,
-        unique: true
+        unique: true,
+        sparse: true
     },
     github: {
         type: String,
-        unique: true
+        unique: true,
+        sparse: true
     },
     imageUrl: {
         type: String,
-        unique: true
+        unique: true,
+        sparse: true
     },
     website: {
         type: String,
-        unique: true
+        unique: true,
+        sparse: true
     }
 }, {timestamps: true});
 
