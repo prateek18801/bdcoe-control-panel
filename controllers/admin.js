@@ -1,5 +1,54 @@
 const Member = require('../models/member');
 const Event = require('../models/event');
+const Config = require('../models/config');
+
+exports.toggleRegistration = async (req, res, next) => {
+    try {
+        const config = await Config.findOne({});
+        if(!config) {
+            const saved = await new Config({registration: false, modified: Date.now()}).save();
+            return res.status(201).json({
+                message: 'created',
+                data: saved
+            });
+        }
+        config.registration = !config.registration;
+        config.modified = Date.now();
+        const saved = await config.save();
+        return res.status(200).json({
+            message: 'modified',
+            data: saved
+        });
+    } catch(err) {
+        next(err);
+    }
+}
+
+
+exports.postConfig = async (req, res, next) => {
+    const data = {
+        ...req.body
+    }
+    try {
+        const config = await Config.findOne({});
+        if(!config) {
+            const saved = await new Config({...data}).save();
+            return res.status(201).json({
+                message: 'created',
+                data: saved
+            });
+        }
+        Object.keys(data).forEach(key => config[key] = data[key]);
+        const updated = await config.save();
+        return res.status(200).json({
+            message: 'updated',
+            data: updated
+        });
+    } catch(err) {
+        next(err);
+    }
+}
+
 
 exports.getMember = async (req, res, next) => {
     const stdno = req.params.id;
