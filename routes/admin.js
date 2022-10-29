@@ -8,4 +8,6 @@ router.get('/member/register', adminController.getMemberRegistration);
 
 router.post('/member/register', adminController.postMemberRegistration);
 
+router.post('/event', adminController.postEvent);
+
 module.exports = router;
