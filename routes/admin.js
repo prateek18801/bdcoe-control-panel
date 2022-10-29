@@ -2,6 +2,10 @@ const router = require('express').Router();
 
 const adminController = require('../controllers/admin');
 
+router.post('/config', adminController.postConfig);
+
+router.get('/toggle-registration', adminController.toggleRegistration);
+
 router.get('/member/:id?', adminController.getMember);
 
 router.get('/member/register', adminController.getMemberRegistration);
