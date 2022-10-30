@@ -8,4 +8,6 @@ router.get('/v1/event/:code?', apiController.getEvent);
 
 router.get('/v1/member/:id?', apiController.getMember);
 
+router.post('/v1/register', apiController.postRegister);
+
 module.exports = router;
