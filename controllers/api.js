@@ -22,7 +22,7 @@ exports.getStatus = async (req, res, next) => {
 }
 
 exports.getEvent = async (req, res, next) => {
-    const code = req.params.code.toUpperCase();
+    const code = req.params.code && req.params.code.toUpperCase();
     const q = req.query.q;
     try {
         const data = code ? await Event.findOne({code}, '-_id eventname code description images') : await Event.find({}, '-_id eventname code description images').sort({end: -1}).limit(+q);
