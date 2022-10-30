@@ -71,9 +71,9 @@ exports.postMemberRegistration = async (req, res, next) => {
     
     const data = {
         ...req.body,
-        email: req.body.email.toLowerCase(),
-        branch: req.body.branch.toUpperCase(),
-        domain: req.body.domain.toUpperCase()
+        email: req.body.email && req.body.email.toLowerCase(),
+        branch: req.body.branch && req.body.branch.toUpperCase(),
+        domain: req.body.domain && req.body.domain.toUpperCase()
     }
     
     try {
@@ -107,7 +107,7 @@ exports.getEvent = (req, res, next) => {
 exports.postEvent = async (req, res, next) => {
     const data = {
         ...req.body,
-        code:  req.body.code.toUpperCase()
+        code:  req.body.code && req.body.code.toUpperCase()
     }
 
     try {
