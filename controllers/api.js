@@ -1,6 +1,7 @@
 const Event = require('../models/event');
 const Member = require('../models/member');
 const Config = require('../models/config');
+const Registration = require('../models/registration');
 
 exports.getStatus = async (req, res, next) => {
     try {
@@ -42,6 +43,25 @@ exports.getMember = async (req, res, next) => {
         return res.status(200).json({
             message: 'success',
             data
+        });
+    } catch(err) {
+        next(err);
+    }
+}
+
+exports.getRegister = (req, res, next) => {
+
+}
+
+exports.postRegister = async (req, res, next) => {
+    const data = {
+        ...req.body
+    }
+    try {
+        const saved = await new Registration({...data}).save();
+        return res.status(201).json({
+            message: 'created',
+            data: saved
         });
     } catch(err) {
         next(err);
