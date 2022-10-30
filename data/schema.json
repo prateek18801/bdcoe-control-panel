@@ -1,0 +1,14 @@
+{
+    "event": "ENI22",
+    "schema": {
+        "name": {
+            "type": "String",
+            "required": true
+        },
+        "stdno": {
+            "type": "Number",
+            "required": true,
+            "unique": true
+        }
+    }
+}
