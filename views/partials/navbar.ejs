@@ -1,0 +1,56 @@
+<nav class="navbar navbar-expand-lg bg-light">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="/admin/dashboard">Big Data Centre of Excellence</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link active" href="/admin/dashboard">Dashboard</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                        Members
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="/admin/v/member">View Member</a></li>
+                        <li><a class="dropdown-item" href="/admin/r/member">Add Member</a></li>
+                        <li><a class="dropdown-item" href="/admin/r/member">Update Member</a></li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li><a class="dropdown-item" href="/admin/d/member">Remove Member</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                        Events
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="/admin/v/member">View Event</a></li>
+                        <li><a class="dropdown-item" href="/admin/r/member">Add Event</a></li>
+                        <li><a class="dropdown-item" href="/admin/r/member">Update Event</a></li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li><a class="dropdown-item" href="/admin/d/member">Remove Event</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/admin/v/config">Config</a>
+                </li>
+            </ul>
+            <ul class="navbar-nav mx-5">
+                <li class="nav-item">
+                    <u><a class="nav-link" href="admin/profile">Hi, <%= username %> [<%= user_role %>]</a></u>
+                </li>
+            </ul>
+            <form action="/auth/logout" method="GET">
+                <button class="btn btn-outline-danger" type="submit">Logout</button>
+            </form>
+        </div>
+    </div>
+</nav>
