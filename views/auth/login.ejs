@@ -1,0 +1,37 @@
+<%- include ('../partials/head.ejs') %>
+    </head>
+
+    <body class="vh-100">
+        <div class="container h-75 d-flex align-items-center justify-content-center">
+            <div class="card" style="width: 95%; max-width: 30rem;">
+                <div class="card-header">
+                    <h3><i class="bi bi-shield-lock-fill"></i> Admin Login</h3>
+                </div>
+                <div class="card-body">
+                    <% if (invalid_credentials) { %>
+                        <div class="alert alert-warning" role="alert">
+                            <i class="bi bi-exclamation-circle"></i> Invalid Credentials
+                        </div>
+                        <% } %>
+                            <form action="/auth/login" method="POST">
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text" id="basic-addon1"><i
+                                            class="bi bi-person-circle"></i></span>
+                                    <input type="text" class="form-control" placeholder="username">
+                                </div>
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text" id="basic-addon1"><i
+                                            class="bi bi-key-fill"></i></span>
+                                    <input type="password" class="form-control" placeholder="password">
+                                </div>
+                                <button type="submit" class="btn btn-primary">Login</button>
+                                <% if (invalid_credentials) { %>
+                                    <a href="/auth/reset-password" class="btn btn-link">Forgot Password</a>
+                                    <% } %>
+                            </form>
+                </div>
+            </div>
+        </div>
+    </body>
+
+    </html>
