@@ -2,6 +2,43 @@ const Member = require('../models/member');
 const Event = require('../models/event');
 const Config = require('../models/config');
 
+
+// PAGES
+
+exports.getDashboard = (req, res, next) => {
+    res.status(200).render('admin/dashboard', {
+        page_title: 'BDCOE ~ Control Panel',
+        username: '2011093',
+        user_role: 'admin'
+    });
+}
+
+exports.getMemberRegistration = (req, res, next) => {
+    res.status(200).send('<h1>Member Registration Form</h1>');
+}
+
+
+exports.getMember = async (req, res, next) => {
+    const stdno = req.params.id;
+    try {
+        const data = stdno ? await Member.findOne({stdno}) : await Member.find({});
+        return res.status(200).json({
+            message: 'success',
+            data
+        });
+    } catch(err) {
+        next(err.message);
+    }
+}
+
+
+exports.getEvent = (req, res, next) => {
+    
+}
+
+
+// API
+
 exports.toggleRegistration = async (req, res, next) => {
     try {
         const config = await Config.findOne({});
@@ -49,24 +86,6 @@ exports.postConfig = async (req, res, next) => {
     }
 }
 
-
-exports.getMember = async (req, res, next) => {
-    const stdno = req.params.id;
-    try {
-        const data = stdno ? await Member.findOne({stdno}) : await Member.find({});
-        return res.status(200).json({
-            message: 'success',
-            data
-        });
-    } catch(err) {
-        next(err.message);
-    }
-}
-
-exports.getMemberRegistration = (req, res, next) => {
-    res.status(200).send('<h1>Member Registration Form</h1>');
-}
-
 exports.postMemberRegistration = async (req, res, next) => {
     
     const data = {
@@ -97,11 +116,6 @@ exports.postMemberRegistration = async (req, res, next) => {
     } catch(err) {
         next(err);
     }
-}
-
-
-exports.getEvent = (req, res, next) => {
-    
 }
 
 exports.postEvent = async (req, res, next) => {
