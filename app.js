@@ -3,18 +3,21 @@ const express = require('express');
 
 require('./utils/db').connect();
 const apiRouter = require('./routes/api');
+const authRouter = require('./routes/auth');
 const adminRouter = require('./routes/admin');
 
 const app = express();
 
 app.use(express.urlencoded({extended: false}));
 app.use(express.json());
+app.set('view engine', 'ejs');
 
 app.get('/', (req, res, next) => {
     res.status(200).send('server running');
 });
 
 app.use('/api', apiRouter);
+app.use('/auth', authRouter);
 app.use('/admin', adminRouter);
 
 app.use((err, req, res, next) => {
