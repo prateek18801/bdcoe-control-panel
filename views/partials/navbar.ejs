@@ -15,7 +15,7 @@
                         Members
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="/admin/v/member">View Member</a></li>
+                        <li><a class="dropdown-item" href="/admin/v/member">View Members</a></li>
                         <li><a class="dropdown-item" href="/admin/r/member">Add Member</a></li>
                         <li><a class="dropdown-item" href="/admin/r/member">Update Member</a></li>
                         <li>
@@ -43,9 +43,9 @@
                     <a class="nav-link" href="/admin/v/config">Config</a>
                 </li>
             </ul>
-            <ul class="navbar-nav mx-5">
+            <ul class="navbar-nav me-5 mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <u><a class="nav-link" href="admin/profile">Hi, <%= username %> [<%= user_role %>]</a></u>
+                    <u><a class="nav-link" href="admin/profile">Hi, <%= user.username %> [<%= user.role %>]</a></u>
                 </li>
             </ul>
             <form action="/auth/logout" method="GET">
