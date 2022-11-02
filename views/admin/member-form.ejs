@@ -1,0 +1,97 @@
+<%- include("../partials/head.ejs") %>
+    </head>
+
+    <body>
+        <%- include("../partials/navbar.ejs") %>
+            <div class="container">
+                <h2 class="my-4"><%= data ? "Update Member Details" : "Add Member Details" %> </h2>
+                <form action="/admin/r/member" method="POST" style="max-width: 60rem;">
+                    <% if (data) { %>
+                        <div class="mb-3">
+                            <input type="text" name="_id" class="form-control" value="<%= data._id %>" disabled>
+                        </div>
+                    <% } %>
+                    <div class="mb-3">
+                        <label for="fullname" class="form-label">Name</label>
+                        <input type="text" name="fullname" class="form-control" value="<%= data && data.fullname %>">
+                    </div>
+                    <div class="mb-3">
+                        <label for="stdno" class="form-label">Student No</label>
+                        <input type="text" name="stdno" class="form-control" value="<%= data && data.stdno %>">
+                    </div>
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="email" name="email" class="form-control" value="<%= data && data.email %>">
+                    </div>
+                    <div class="mb-3">
+                        <label for="contact" class="form-label">Contact</label>
+                        <input type="text" name="contact" class="form-control" value="<%= data && data.contact %>">
+                    </div>
+                    <div class="input-group my-4">
+                        <select class="form-select" name="branch">
+                            <option <%= !data ? 'selected' : '' %> hidden>Branch</option>
+                            <option <%= data && data.branch === 'CSE' ? 'selected' : '' %> value="CSE">CSE</option>
+                            <option <%= data && data.branch === 'CS' ? 'selected' : '' %> value="CS">CS</option>
+                            <option <%= data && data.branch === 'CSE(DS)' ? 'selected' : '' %> value="CSE(DS)">CSE(DS)</option>
+                            <option <%= data && data.branch === 'CSE(AIML)' ? 'selected' : '' %> value="CSE(AIML)">CSE(AIML)</option>
+                            <option <%= data && data.branch === 'AIML' ? 'selected' : '' %> value="AIML">AIML</option>
+                            <option <%= data && data.branch === 'IT' ? 'selected' : '' %> value="IT">IT</option>
+                            <option <%= data && data.branch === 'CSIT' ? 'selected' : '' %> value="CSIT">CSIT</option>
+                            <option <%= data && data.branch === 'ECE' ? 'selected' : '' %> value="ECE">ECE</option>
+                            <option <%= data && data.branch === 'EN' ? 'selected' : '' %> value="EN">EN</option>
+                            <option <%= data && data.branch === 'ME' ? 'selected' : '' %> value="ME">ME</option>
+                            <option <%= data && data.branch === 'CIVIL' ? 'selected' : '' %> value="CIVIL">CIVIL</option>
+                            <option <%= data && data.branch === 'OTHER' ? 'selected' : '' %> value="OTHER">OTHER</option>
+                          </select>
+
+                          <select class="form-select" name="section">
+                            <option <%= !data ? 'selected' : '' %> hidden>Section</option>
+                            <option <%= data && data.section == '1' ? 'selected' : '' %> value="1">1</option>
+                            <option <%= data && data.section == '2' ? 'selected' : '' %> value="2">2</option>
+                            <option <%= data && data.section == '3' ? 'selected' : '' %> value="3">3</option>
+                          </select>                         
+                    </div>
+                    
+                    <select class="form-select mb-3" name="domain">
+                        <option <%= !data ? 'selected' : '' %> hidden>Domain</option>
+                        <option <%= data && data.domain === 'FS' ? 'selected' : '' %> value="FS">Full Stack Development</option>
+                        <option <%= data && data.domain === 'BE' ? 'selected' : '' %> value="BE">Backend Development</option>
+                        <option <%= data && data.domain === 'FE' ? 'selected' : '' %> value="FE">Frontend Development</option>
+                        <option <%= data && data.domain === 'AD' ? 'selected' : '' %> value="AD">Application Development</option>
+                        <option <%= data && data.domain === 'ML' ? 'selected' : '' %> value="ML">Machine Learning</option>
+                        <option <%= data && data.domain === 'CP' ? 'selected' : '' %> value="CP">Competitive Programming</option>
+                        <option <%= data && data.domain === 'DE' ? 'selected' : '' %> value="DE">UI/UX Designing</option>
+                      </select>
+
+                    <div class="mb-3">
+                        <label for="graduation" class="form-label">Year of graduation</label>
+                        <input type="number" name="graduation" class="form-control" value="<%= (data && data.graduation) || new Date().getFullYear() + 3 %>">
+                    </div>
+                    <div class="mb-3">
+                        <label for="imageUrl" class="form-label">Image URL</label>
+                        <input type="text" name="imageUrl" class="form-control" value="<%= data && data.imageUrl %>">
+                    </div>
+                    <div class="mb-3">
+                        <label for="github" class="form-label">Github Username</label>
+                        <input type="text" name="github" class="form-control" value="<%= data && data.github %>">
+                    </div>
+                    <div class="mb-3">
+                        <label for="linkedin" class="form-label">Linkedin Username</label>
+                        <input type="text" name="linkedin" class="form-control" value="<%= data && data.linkedin %>">
+                    </div>
+                    <div class="mb-3">
+                        <label for="wesite" class="form-label">Website URL</label>
+                        <input type="text" name="website" class="form-control" value="<%= data && data.website %>">
+                    </div>
+                    <div class="form-check mb-4">
+                        <input class="form-check-input" type="checkbox" name="coordinator" value="true" id="defaultCheck1" <%= data && data.cordinator == 'true' ? 'checked' : '' %>>
+                        <label class="form-check-label" for="defaultCheck1">Coordinator</label>
+                    </div>
+                    <button type="submit" class="btn btn-primary mb-4">
+                        <%= data ? "Update" : "Submit" %>
+                    </button>
+                </form>
+            </div>
+    </body>
+
+    </html>
