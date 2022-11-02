@@ -8,32 +8,49 @@ const Config = require('../models/config');
 exports.getDashboard = (req, res, next) => {
     res.status(200).render('admin/dashboard', {
         page_title: 'BDCOE ~ Control Panel',
-        username: '2011093',
-        user_role: 'admin'
+        user: {
+            username: '2011093',
+            role: 'admin'
+        }
     });
 }
 
-exports.getMemberRegistration = (req, res, next) => {
-    res.status(200).send('<h1>Member Registration Form</h1>');
-}
-
-
-exports.getMember = async (req, res, next) => {
+exports.getMemberForm = async (req, res, next) => {
     const stdno = req.params.id;
     try {
-        const data = stdno ? await Member.findOne({stdno}) : await Member.find({});
-        return res.status(200).json({
-            message: 'success',
+        const data = await Member.findOne({ stdno }).lean();
+        return res.status(200).render('admin/member-form', {
+            page_title: stdno ? 'Update Details' : 'Add Member',
+            user: {
+                username: '2011093',
+                role: 'admin'
+            },
             data
         });
-    } catch(err) {
+    } catch (err) {
+        next(err);
+    }
+}
+
+exports.getMembers = async (req, res, next) => {
+    try {
+        const data = await Member.find({}).sort({ graduation: -1 }).limit(3).lean();
+        return res.status(200).render('admin/member', {
+            page_title: 'BDCOE ~ Members',
+            user: {
+                username: '2011093',
+                role: 'admin'
+            },
+            data
+        });
+    } catch (err) {
         next(err.message);
     }
 }
 
 
 exports.getEvent = (req, res, next) => {
-    
+
 }
 
 
@@ -42,8 +59,8 @@ exports.getEvent = (req, res, next) => {
 exports.toggleRegistration = async (req, res, next) => {
     try {
         const config = await Config.findOne({});
-        if(!config) {
-            const saved = await new Config({registration: false, modified: Date.now()}).save();
+        if (!config) {
+            const saved = await new Config({ registration: false, modified: Date.now() }).save();
             return res.status(201).json({
                 message: 'created',
                 data: saved
@@ -56,7 +73,7 @@ exports.toggleRegistration = async (req, res, next) => {
             message: 'modified',
             data: saved
         });
-    } catch(err) {
+    } catch (err) {
         next(err);
     }
 }
@@ -68,8 +85,8 @@ exports.postConfig = async (req, res, next) => {
     }
     try {
         const config = await Config.findOne({});
-        if(!config) {
-            const saved = await new Config({...data}).save();
+        if (!config) {
+            const saved = await new Config({ ...data }).save();
             return res.status(201).json({
                 message: 'created',
                 data: saved
@@ -81,39 +98,50 @@ exports.postConfig = async (req, res, next) => {
             message: 'updated',
             data: updated
         });
-    } catch(err) {
+    } catch (err) {
         next(err);
     }
 }
 
-exports.postMemberRegistration = async (req, res, next) => {
-    
+exports.postMemberForm = async (req, res, next) => {
+
     const data = {
         ...req.body,
         email: req.body.email && req.body.email.toLowerCase(),
         branch: req.body.branch && req.body.branch.toUpperCase(),
-        domain: req.body.domain && req.body.domain.toUpperCase()
+        domain: req.body.domain && req.body.domain.toUpperCase(),
+        coordinator: req.body.coordinator || false
     }
-    
+
     try {
 
-        const existing = await Member.findOne({stdno: data.stdno});
-        if(existing) {
+        const existing = await Member.findOne({ stdno: data.stdno });
+        if (existing) {
             Object.keys(data).forEach(key => existing[key] = data[key]);
-            const updated = await existing.save();
-            return res.status(200).json({
-                message: 'updated',
-                data: updated
+            await existing.save();
+            const members = await Member.find({}).sort({ graduation: -1 }).limit(3).lean();
+            return res.status(200).render('admin/member', {
+                page_title: 'BDCOE ~ Members',
+                user: {
+                    username: '2011093',
+                    role: 'admin'
+                },
+                data: members
             });
         }
 
-        const saved = await new Member({...data}).save();
-        return res.status(201).json({
-            message: 'created',
-            data: saved
+        await new Member({ ...data }).save();
+        const members = await Member.find({}).sort({ graduation: -1 }).limit(3).lean();
+        return res.status(200).render('admin/member', {
+            page_title: 'BDCOE ~ Members',
+            user: {
+                username: '2011093',
+                role: 'admin'
+            },
+            data: members
         });
 
-    } catch(err) {
+    } catch (err) {
         next(err);
     }
 }
@@ -121,13 +149,13 @@ exports.postMemberRegistration = async (req, res, next) => {
 exports.postEvent = async (req, res, next) => {
     const data = {
         ...req.body,
-        code:  req.body.code && req.body.code.toUpperCase()
+        code: req.body.code && req.body.code.toUpperCase()
     }
 
     try {
 
-        const existing = await Event.findOne({code: data.code});
-        if(existing) {
+        const existing = await Event.findOne({ code: data.code });
+        if (existing) {
             Object.keys(data).forEach(key => existing[key] = data[key]);
             const updated = await existing.save();
             return res.status(200).json({
@@ -136,13 +164,13 @@ exports.postEvent = async (req, res, next) => {
             });
         }
 
-        const saved = await new Event({...data}).save();
+        const saved = await new Event({ ...data }).save();
         return res.status(201).json({
             message: 'created',
             data: saved
         });
 
-    } catch(err) {
+    } catch (err) {
         next(err);
     }
 }
