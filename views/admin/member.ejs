@@ -1,0 +1,39 @@
+<%- include("../partials/head.ejs") %>
+    </head>
+
+    <body>
+        <%- include("../partials/navbar.ejs") %>
+            <div class="container my-5">
+                <% data.forEach(member=> { %>
+                    <div class="card mb-3" style="max-width: 540px;">
+                        <div class="row g-0">
+                            <div class="col-md-4">
+                                <img src="<%= member.imageUrl %>" class="img-fluid rounded-start w-100" alt="<%= member.fullname %>">
+                                <a href="https://api.qrserver.com/v1/create-qr-code/?size=500x500&data=<%= member._id %>" target="_blank">Link</a>
+                            </div>
+                            <div class="col-md-8">
+                                <div class="card-body">
+                                    <h4 class="card-title"><%= member.fullname %> <span class="badge bg-secondary"><%= member.stdno %></span></h4>
+                                    <p class="card-text"><small class="text-muted"><%= member._id %></small></p>
+                                    <div>
+                                        <div class="card-text"><i class="bi bi-envelope-fill"></i> <%= member.email %></div>
+                                        <div class="card-text"><i class="bi bi-telephone-fill"></i> <%= member.contact %></div>
+                                        <div class="card-text"><i class="bi bi-mortarboard-fill"></i> <%= member.graduation %>, <%= member.branch %>-<%= member.section %></div>
+                                    </div>
+                                    <div class="card-text fs-4 my-1">
+                                        <a href="https://github.com/<%= member.github %>" target="_blank" class="link-dark"><i class="bi bi-github"></i></a>
+                                        <a href="https://www.linkedin.com/in/<%= member.linkedin %>" target="_blank" class="link-dark"><i class="bi bi-linkedin mx-2"></i></a>
+                                        <a href="<%= member.website %>" target="_blank" class="link-dark"><i class="bi bi-globe"></i></a>
+                                    </div>
+                                    <p class="card-text"><small class="text-muted">Updated: <%= new Date(member.updatedAt).toLocaleString().toUpperCase() %></small></p>
+                                    <a href="/admin/r/member/<%= member.stdno %>" class="btn btn-warning">Update</a>
+                                    <a href="#" class="btn btn-danger">Delete</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                <% }); %>
+            </div>
+    </body>
+
+    </html>
