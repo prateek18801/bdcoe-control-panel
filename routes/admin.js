@@ -6,11 +6,13 @@ const adminController = require('../controllers/admin');
 
 router.get('/dashboard', adminController.getDashboard);
 
-router.get('/v/member/', adminController.getMembers);
+router.get('/v/member', adminController.getMembers);
 
-// router.get('/v/event/:code?', adminController.getEvent);
+router.get('/v/event', adminController.getEvents);
 
 router.get('/r/member/:id?', adminController.getMemberForm);
+
+router.get('/r/event/:code?', adminController.getEventForm);
 
 // API
 
@@ -18,9 +20,13 @@ router.get('/toggle', adminController.toggleRegistration);
 
 router.post('/config', adminController.postConfig);
 
-router.post('/r/member', adminController.postMemberForm);
+router.post('/r/member', adminController.postMember);
 
-router.post('/event', adminController.postEvent);
+router.post('/r/event', adminController.postEvent);
+
+router.get('/d/member/:id', adminController.deleteMember);
+
+router.get('/d/event/:id', adminController.deleteEvent);
 
 router.get('/d/registration', adminController.downloadRegistrationData);
 
