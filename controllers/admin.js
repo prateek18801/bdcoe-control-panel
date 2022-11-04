@@ -32,25 +32,23 @@ exports.getMemberForm = async (req, res, next) => {
     }
 }
 
-exports.getMembers = async (req, res, next) => {
+exports.getEventForm = async (req, res, next) => {
+    const code = req.params.code && req.params.code.toUpperCase();
     try {
-        const data = await Member.find({}).sort({ graduation: -1 }).limit(3).lean();
-        return res.status(200).render('admin/member', {
-            page_title: 'BDCOE ~ Members',
+        const data = await Event.findOne({ code }).populate('coordinators', '_id fullname stdno').lean();
+        const members = await Member.find({}, "_id fullname stdno").sort({ graduation: -1 }).limit(2).lean();
+        return res.status(200).render('admin/event-form', {
+            page_title: code ? 'Update Event Details' : 'Add Event',
             user: {
                 username: '2011093',
                 role: 'admin'
             },
-            data
+            data,
+            members
         });
     } catch (err) {
-        next(err.message);
+        next(err);
     }
-}
-
-
-exports.getEvent = (req, res, next) => {
-
 }
 
 
@@ -103,7 +101,7 @@ exports.postConfig = async (req, res, next) => {
     }
 }
 
-exports.postMemberForm = async (req, res, next) => {
+exports.postMember = async (req, res, next) => {
 
     const data = {
         ...req.body,
@@ -119,27 +117,11 @@ exports.postMemberForm = async (req, res, next) => {
         if (existing) {
             Object.keys(data).forEach(key => existing[key] = data[key]);
             await existing.save();
-            const members = await Member.find({}).sort({ graduation: -1 }).limit(3).lean();
-            return res.status(200).render('admin/member', {
-                page_title: 'BDCOE ~ Members',
-                user: {
-                    username: '2011093',
-                    role: 'admin'
-                },
-                data: members
-            });
+            return res.status(300).redirect('/admin/v/member');
         }
 
         await new Member({ ...data }).save();
-        const members = await Member.find({}).sort({ graduation: -1 }).limit(3).lean();
-        return res.status(200).render('admin/member', {
-            page_title: 'BDCOE ~ Members',
-            user: {
-                username: '2011093',
-                role: 'admin'
-            },
-            data: members
-        });
+        return res.status(300).redirect('/admin/v/member');
 
     } catch (err) {
         next(err);
@@ -149,7 +131,8 @@ exports.postMemberForm = async (req, res, next) => {
 exports.postEvent = async (req, res, next) => {
     const data = {
         ...req.body,
-        code: req.body.code && req.body.code.toUpperCase()
+        code: req.body.code && req.body.code.toUpperCase(),
+        coordinators: req.body.coordinators || []
     }
 
     try {
