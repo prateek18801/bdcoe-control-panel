@@ -2,7 +2,76 @@
     </head>
 
     <body>
-        <%- include("../partials/navbar.ejs") %> 
+        <%- include("../partials/navbar.ejs") %>
+            <div class="container my-3">
+                <div class="card" style="max-width: 32rem;">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center justify-content-between   ">
+                            <h4 class="card-title mb-0">Registration Status: <span id="status-badge"
+                                    class="badge bg-secondary">loading...</span></h4>
+                            <button type="button" class="btn btn-primary" onclick="fetchStatus()"><i
+                                    class="bi bi-arrow-clockwise"></i></button>
+                        </div>
+                        <div class="alert alert-primary mt-3" id="status-updated-at">loading...</div>
+                        <button type="button" id="toggle-btn" class="btn btn-secondary"
+                            onclick="toggleRegistration()">loading...</button>
+                    </div>
+                </div>
+
+                
+            </div>
     </body>
+    <script>
+        async function fetchStatus() {
+            const response = await fetch('/api/v1/status');
+            const json = await response.json();
+            if (json.status) {
+                document.getElementById('status-badge').classList.remove('bg-danger');
+                document.getElementById('status-badge').classList.add('bg-success');
+                document.getElementById('toggle-btn').classList.remove('btn-success');
+                document.getElementById('toggle-btn').classList.add('btn-danger');
+                document.getElementById('status-badge').innerText = 'Open';
+                document.getElementById('status-updated-at').innerHTML = new Date(json.modified).toString();
+                document.getElementById('toggle-btn').innerHTML = 'Close Registrations';
+            } else {
+                document.getElementById('status-badge').classList.remove('bg-success');
+                document.getElementById('status-badge').classList.add('bg-danger');
+                document.getElementById('toggle-btn').classList.remove('btn-danger');
+                document.getElementById('toggle-btn').classList.add('btn-success');
+                document.getElementById('status-badge').innerText = 'Closed';
+                document.getElementById('status-updated-at').innerHTML = new Date(json.modified).toString();
+                document.getElementById('toggle-btn').innerHTML = 'Open Registrations';
+            }
+        }
+
+        async function toggleRegistration() {
+            const text = prompt('Type CONFIRM to change:');
+            if(text !== 'CONFIRM') {
+                alert('Action not performed');
+                return;
+            };
+            const response = await fetch('/admin/toggle');
+            const json = await response.json();
+            if (json.data.registration) {
+                document.getElementById('status-badge').classList.remove('bg-danger');
+                document.getElementById('status-badge').classList.add('bg-success');
+                document.getElementById('toggle-btn').classList.remove('btn-success');
+                document.getElementById('toggle-btn').classList.add('btn-danger');
+                document.getElementById('status-badge').innerText = 'Open';
+                document.getElementById('status-updated-at').innerHTML = new Date(json.data.modified).toString();
+                document.getElementById('toggle-btn').innerHTML = 'Close Registrations';
+            } else {
+                document.getElementById('status-badge').classList.remove('bg-success');
+                document.getElementById('status-badge').classList.add('bg-danger');
+                document.getElementById('toggle-btn').classList.remove('btn-danger');
+                document.getElementById('toggle-btn').classList.add('btn-success');
+                document.getElementById('status-badge').innerText = 'Closed';
+                document.getElementById('status-updated-at').innerHTML = new Date(json.data.modified).toString();
+                document.getElementById('toggle-btn').innerHTML = 'Open Registrations';
+            }
+        }
+
+        fetchStatus();
+    </script>
 
     </html>
