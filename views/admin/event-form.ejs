@@ -1,0 +1,62 @@
+<%- include("../partials/head.ejs") %>
+    </head>
+
+    <body>
+        <%- include("../partials/navbar.ejs") %>
+            <div class="container">
+                <h2 class="my-4"><%= data ? "Update Event Details" : "Add Event Details" %> </h2>
+                <form action="/admin/r/event" method="POST" style="max-width: 60rem;">
+                    <% if (data) { %>
+                        <div class="mb-3">
+                            <input type="text" name="_id" class="form-control" value="<%= data._id %>" disabled>
+                        </div>
+                    <% } %>
+                    <div class="mb-3">
+                        <label for="eventname" class="form-label">Event Name</label>
+                        <input type="text" name="eventname" class="form-control" value="<%= data && data.eventname %>">
+                    </div>
+                    <div class="mb-3">
+                        <label for="code" class="form-label">Event Code</label>
+                        <input type="text" name="code" class="form-control" value="<%= data && data.code %>">
+                    </div>
+                    <div class="mb-3">
+                        <label for="tag" class="form-label">Tagline</label>
+                        <input type="text" name="tag" class="form-control" value="<%= data && data.tag %>">
+                    </div>
+                    <div class="mb-3">
+                        <label for="description" class="form-label">Description</label>
+                        <textarea name="description" class="form-control" rows="6" required><%= data && data.description%></textarea>
+                    </div>
+                    <div class="input-group">
+                        <div class="mb-3 w-50">
+                            <label for="start" class="form-label">Start</label>
+                            <input type="date" class="form-control" name="start" value="<%= data && new Date(data.start).toISOString().split('T')[0]%>">
+                        </div>
+                        <div class="mb-3 w-50">
+                            <label for="end" class="form-label">End</label>
+                            <input type="date" class="form-control" name="end" value="<%= data && new Date(data.end).toISOString().split('T')[0]%>">
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="participants" class="form-label">No. of participants</label>
+                        <input type="number" name="participants" class="form-control" value="<%= data && data.participants %>">
+                    </div>
+                    <div class="mb-3">
+                        <label for="budget" class="form-label">Budget</label>
+                        <input type="number" name="budget" class="form-control" value="<%= data && data.budget %>">
+                    </div>
+                    <div class="mb-3">
+                        <div><label for="" class="form-label">Coordinators</label></div>
+                        <% members.forEach(member => { %>
+                            <input type="checkbox" class="form-check-input" name="coordinators" value="<%= member._id %>">
+                            <label for="coodinators"><%= member.fullname %> - <%= member.stdno %></label>
+                        <% }) %>
+                        </div>
+                    <button type="submit" class="btn btn-primary mb-4">
+                        <%= data ? "Update" : "Submit" %>
+                    </button>
+                </form>
+            </div>
+    </body>
+
+    </html>
