@@ -140,7 +140,11 @@ exports.postMember = async (req, res, next) => {
         email: req.body.email && req.body.email.toLowerCase(),
         branch: req.body.branch && req.body.branch.toUpperCase(),
         domain: req.body.domain && req.body.domain.toUpperCase(),
-        coordinator: req.body.coordinator || false
+        coordinator: req.body.coordinator || false,
+        imageUrl: req.body.imageUrl.length === 0 ? undefined : req.body.imageUrl,
+        github: req.body.github.length === 0 ? undefined : req.body.github,
+        linkedin: req.body.linkedin.length === 0 ? undefined : req.body.linkedin,
+        website: req.body.website.length === 0 ? undefined : req.body.github
     }
 
     try {
