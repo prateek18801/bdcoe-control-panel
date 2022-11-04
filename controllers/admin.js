@@ -15,6 +15,38 @@ exports.getDashboard = (req, res, next) => {
     });
 }
 
+exports.getMembers = async (req, res, next) => {
+    try {
+        const data = await Member.find({}).sort({ graduation: -1 }).limit(3).lean();
+        return res.status(200).render('admin/member', {
+            page_title: 'BDCOE ~ Members',
+            user: {
+                username: '2011093',
+                role: 'admin'
+            },
+            data
+        });
+    } catch (err) {
+        next(err.message);
+    }
+}
+
+exports.getEvents = async (req, res, next) => {
+    try {
+        const data = await Event.find({}).sort({ end: -1 }).populate('coordinators', '_id fullname stdno').lean();
+        return res.status(200).render('admin/event', {
+            page_title: 'BDCOE ~ Events',
+            user: {
+                username: '2011093',
+                role: 'admin'
+            },
+            data
+        });
+    } catch (err) {
+        next(err.message);
+    }
+}
+
 exports.getMemberForm = async (req, res, next) => {
     const stdno = req.params.id;
     try {
@@ -157,3 +189,4 @@ exports.postEvent = async (req, res, next) => {
         next(err);
     }
 }
+
