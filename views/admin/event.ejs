@@ -1,0 +1,103 @@
+<%- include("../partials/head.ejs") %>
+    </head>
+
+    <body>
+        <%- include("../partials/navbar.ejs") %>
+            <div class="container">
+                <% data.forEach(event=> { %>
+                    <div class="card my-3" id="#<%= event.code %>">
+                        <div class="card-header">
+                            <b>
+                                <%= event.eventname %> - <%= event.code %>
+                            </b>
+                        </div>
+                        <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="true">
+                            <div class="carousel-indicators">
+                                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0"
+                                    class="active" aria-current="true" aria-label="Slide 1"></button>
+                                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1"
+                                    aria-label="Slide 2"></button>
+                                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2"
+                                    aria-label="Slide 3"></button>
+                            </div>
+                            <div class="carousel-inner">
+                                <div class="carousel-item active" data-bs-interval="1000">
+                                    <img src="https://images.ctfassets.net/hrltx12pl8hq/7yQR5uJhwEkRfjwMFJ7bUK/dc52a0913e8ff8b5c276177890eb0129/offset_comp_772626-opt.jpg?fit=fill&w=800&h=300"
+                                        class="d-block w-100"
+                                        alt="https://images.ctfassets.net/hrltx12pl8hq/7yQR5uJhwEkRfjwMFJ7bUK/dc52a0913e8ff8b5c276177890eb0129/offset_comp_772626-opt.jpg?fit=fill&w=800&h=300">
+                                </div>
+                                <div class="carousel-item" data-bs-interval="2000">
+                                    <img src="https://images.ctfassets.net/hrltx12pl8hq/7yQR5uJhwEkRfjwMFJ7bUK/dc52a0913e8ff8b5c276177890eb0129/offset_comp_772626-opt.jpg?fit=fill&w=800&h=300"
+                                        class="d-block w-100"
+                                        alt="https://images.ctfassets.net/hrltx12pl8hq/7yQR5uJhwEkRfjwMFJ7bUK/dc52a0913e8ff8b5c276177890eb0129/offset_comp_772626-opt.jpg?fit=fill&w=800&h=300">
+                                </div>
+                                <div class="carousel-item" data-bs-interval="3000">
+                                    <img src="https://images.ctfassets.net/hrltx12pl8hq/7yQR5uJhwEkRfjwMFJ7bUK/dc52a0913e8ff8b5c276177890eb0129/offset_comp_772626-opt.jpg?fit=fill&w=800&h=300"
+                                        class="d-block w-100"
+                                        alt="https://images.ctfassets.net/hrltx12pl8hq/7yQR5uJhwEkRfjwMFJ7bUK/dc52a0913e8ff8b5c276177890eb0129/offset_comp_772626-opt.jpg?fit=fill&w=800&h=300">
+                                </div>
+                            </div>
+                            <button class="carousel-control-prev" type="button"
+                                data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Previous</span>
+                            </button>
+                            <button class="carousel-control-next" type="button"
+                                data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Next</span>
+                            </button>
+                        </div>
+                        <div class="card-body">
+                            <h4 class="card-title">
+                                <%= event.eventname %>
+                            </h4>
+                            <h6 class="card-subtitle mb-3 text-muted">
+                                <%= event.tag %>
+                            </h6>
+                            <h6 class="card-subtitle mb-2">
+                                <%= new Date(event.start).toLocaleString().split(',')[0] %> - <%= new
+                                        Date(event.end).toLocaleString().split(',')[0] %>
+                            </h6>
+                            <p class="card-text">
+                                <%= event.description %>
+                            </p>
+                            <small>
+                                <div class="card-text">
+                                    Budget: Rs.<%= event.budget %>
+                                </div>
+                                <div class="card-text">
+                                    Participants: <%= event.participants %>
+                                </div>
+                                <div class="card-text">
+                                    Coordinators:
+                                    <% event.coordinators.forEach(coordinator => { %>
+                                         <%= coordinator.fullname %>(<%= coordinator.stdno %>)  
+                                    <% }) %>
+                                </div>
+                            </small>    
+                            <p class="card-text"><small class="text-muted">
+                                    Last updated: <%= new Date(event.updatedAt).toLocaleString().toUpperCase() %>
+                                </small></p>
+                            <a href="/admin/r/event/<%= event.code %>" class="btn btn-warning">Update</a>
+                            <button class="btn btn-danger" onclick="deleteEvent('<%= event._id %>')">Delete</button>
+                        </div>
+                    </div>
+                    <% }) %>
+            </div>
+    </body>
+    <script>
+        async function deleteEvent(id) {
+            const text = prompt('Type CONFIRM to delete:');
+            if(text !== 'CONFIRM') {
+                alert('Action not performed')
+                return;
+            };
+            const response = await fetch(`/admin/d/event/${id}`);
+            const json = await response.json();
+            alert(`Event: ${json.data.eventname} - ${json.data.code} ${json.message}`);
+            location.reload();
+        }
+    </script>
+
+    </html>
