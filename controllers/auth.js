@@ -1,7 +1,10 @@
+const User = require('../models/user');
+
 exports.getLogin = (req, res, next) => {
     return res.status(200).render('auth/login', {
         page_title: 'Login',
-        invalid_credentials: false
+        invalid_credentials: req.query.u ? true : false,
+        username: req.query.u
     });
 }
 
@@ -11,15 +14,15 @@ exports.getResetPassword = (req, res, next) => {
     });
 }
 
-exports.postLogin = (req, res, next) => {
+exports.postLogin = async (req, res, next) => {
+    const { username, password } = req.body;
     try {
-        // if authenticated redirect
-        // return res.status(300).redirect('/admin/dashboard');
-        // else 
-        return res.status(401).render('auth/login', {
-            page_title: 'Login',
-            invalid_credentials: true
-        });
+        const found = await User.findOne({username});
+        if(found) {
+            // compare password
+            // if match redirect dashboard give jwt
+        }
+        return res.status(401).redirect(`/auth/login?u=${username}`);
     } catch (err) {
         next(err);
     }
