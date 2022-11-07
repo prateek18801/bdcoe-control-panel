@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt');
 
 const User = require('../models/user');
 
@@ -19,16 +20,19 @@ exports.getResetPassword = (req, res, next) => {
 exports.postLogin = async (req, res, next) => {
     const { username, password } = req.body;
     try {
-        // const found = await User.findOne({username});
-        const found = {
+        // const user = await User.findOne({username});
+        const user = {
             _id: 'prateek18801',
             password: 'password'
         }
-        if (found) {
-            if (password === found.password) {
-                console.log(process.env.JWT_TOKEN);
-                const token = jwt.sign({ id: found._id }, process.env.JWT_SECRET, { expiresIn: '3d' });
-                console.log(token);
+        if (user) {
+            const match = await bcrypt.compare(password, user.password);
+            if (match) {
+                const token = jwt.sign({
+                    id: user._id,
+                    username: user.username,
+                    role: user.role
+                }, process.env.JWT_SECRET, { expiresIn: '3d' });
                 return res.cookie('auth', token, {
                     httpOnly: true,
                     maxAge: 259200000
