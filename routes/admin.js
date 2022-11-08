@@ -14,6 +14,8 @@ router.get('/r/member/:id?', adminController.getMemberForm);
 
 router.get('/r/event/:code?', adminController.getEventForm);
 
+router.get('/profile', adminController.getProfile);
+
 // API
 
 router.get('/toggle', adminController.toggleRegistration);
