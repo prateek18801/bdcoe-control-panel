@@ -1,39 +1,40 @@
 const router = require('express').Router();
 
 const adminController = require('../controllers/admin');
+const authorization = require('../middlewares/authorization');
 
 // PAGES
 
-router.get('/dashboard', adminController.getDashboard);
+router.get('/dashboard', authorization('member'), adminController.getDashboard);
 
-router.get('/v/member', adminController.getMembers);
+router.get('/v/member', authorization('member'), adminController.getMembers);
 
-router.get('/v/event', adminController.getEvents);
+router.get('/v/event', authorization('member'), adminController.getEvents);
 
-router.get('/r/member/:id?', adminController.getMemberForm);
+router.get('/r/member/:id?', authorization('admin'), adminController.getMemberForm);
 
-router.get('/r/event/:code?', adminController.getEventForm);
+router.get('/r/event/:code?', authorization('admin'), adminController.getEventForm);
 
-router.get('/profile', adminController.getProfile);
+router.get('/profile', authorization('member'), adminController.getProfile);
 
 // API
 
-router.get('/toggle', adminController.toggleRegistration);
+router.get('/toggle', authorization('admin'), adminController.toggleRegistration);
 
-router.post('/config', adminController.postConfig);
+router.post('/config', authorization('admin'), adminController.postConfig);
 
-router.post('/r/member', adminController.postMember);
+router.post('/r/member', authorization('admin'), adminController.postMember);
 
-router.post('/r/event', adminController.postEvent);
+router.post('/r/event', authorization('admin'), adminController.postEvent);
 
-router.get('/d/member/:id', adminController.deleteMember);
+router.get('/d/member/:id', authorization('admin'), adminController.deleteMember);
 
-router.get('/d/event/:id', adminController.deleteEvent);
+router.get('/d/event/:id', authorization('admin'), adminController.deleteEvent);
 
-router.get('/d/registration', adminController.downloadRegistrationData);
+router.get('/download/registration', authorization('member'), adminController.downloadRegistrationData);
 
-router.get('/d/event', adminController.downloadEventData)
+router.get('/download/event', authorization('member'), adminController.downloadEventData)
 
-router.get('/d/member', adminController.downloadMemberData)
+router.get('/download/member', authorization('member'), adminController.downloadMemberData)
 
 module.exports = router;
