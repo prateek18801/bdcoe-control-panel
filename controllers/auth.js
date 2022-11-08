@@ -18,7 +18,7 @@ exports.getSignup = (req, res, next) => {
 }
 
 exports.getResetPassword = (req, res, next) => {
-    return res.status(200).render('auth/reset-password', {
+    return res.status(200).render('auth/password/reset', {
         page_title: 'Reset Password'
     });
 }
@@ -26,11 +26,7 @@ exports.getResetPassword = (req, res, next) => {
 exports.postLogin = async (req, res, next) => {
     const { username, password } = req.body;
     try {
-        // const user = await User.findOne({username});
-        const user = {
-            _id: 'prateek18801',
-            password: 'password'
-        }
+        const user = await User.findOne({ username });
         if (user) {
             const match = await bcrypt.compare(password, user.password);
             if (match) {
@@ -75,9 +71,9 @@ exports.postSignup = async (req, res, next) => {
 }
 
 exports.postUpdatePassword = async (req, res, next) => {
-    const { password, new_password, conf_password} = req.body;
+    const { password, new_password, conf_password } = req.body;
     try {
-        if(new_password !== conf_password || new_password.length < 8) {
+        if (new_password !== conf_password || new_password.length < 8) {
             return res.status(400).json({
                 message: 'falied',
             });
