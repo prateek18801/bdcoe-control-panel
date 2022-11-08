@@ -13,10 +13,7 @@ const jsontocsv = require('../utils/jsontocsv');
 exports.getDashboard = (req, res, next) => {
     res.status(200).render('admin/dashboard', {
         page_title: 'BDCOE ~ Control Panel',
-        user: {
-            username: '2011093',
-            role: 'admin'
-        }
+        user: req.user
     });
 }
 
@@ -25,10 +22,7 @@ exports.getMembers = async (req, res, next) => {
         const data = await Member.find({}).sort({ graduation: -1 }).limit(3).lean();
         return res.status(200).render('admin/member', {
             page_title: 'BDCOE ~ Members',
-            user: {
-                username: '2011093',
-                role: 'admin'
-            },
+            user: req.user,
             data
         });
     } catch (err) {
@@ -41,10 +35,7 @@ exports.getEvents = async (req, res, next) => {
         const data = await Event.find({}).sort({ end: -1 }).populate('coordinators', '_id fullname stdno').lean();
         return res.status(200).render('admin/event', {
             page_title: 'BDCOE ~ Events',
-            user: {
-                username: '2011093',
-                role: 'admin'
-            },
+            user: req.user,
             data
         });
     } catch (err) {
@@ -58,10 +49,7 @@ exports.getMemberForm = async (req, res, next) => {
         const data = await Member.findOne({ stdno }).lean();
         return res.status(200).render('admin/member-form', {
             page_title: stdno ? 'Update Details' : 'Add Member',
-            user: {
-                username: '2011093',
-                role: 'admin'
-            },
+            user: req.user,
             data
         });
     } catch (err) {
@@ -76,10 +64,7 @@ exports.getEventForm = async (req, res, next) => {
         const members = await Member.find({}, "_id fullname stdno").sort({ graduation: -1 }).limit(2).lean();
         return res.status(200).render('admin/event-form', {
             page_title: code ? 'Update Event Details' : 'Add Event',
-            user: {
-                username: '2011093',
-                role: 'admin'
-            },
+            user: req.user,
             data,
             members
         });
@@ -94,10 +79,7 @@ exports.getProfile = async (req, res, next) => {
         const user = await User.findOne({ username: req.user.username });
         return res.status(200).render('admin/profile', {
             page_title: `${user.username} ~ Profile`,
-            user: {
-                username: '2011093',
-                role: 'admin'
-            },
+            user: req.user,
             member
         });
     } catch (err) {
