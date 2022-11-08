@@ -4,6 +4,7 @@ const fs = require('fs');
 const Member = require('../models/member');
 const Event = require('../models/event');
 const Config = require('../models/config');
+const User = require('../models/user');
 
 const jsontocsv = require('../utils/jsontocsv');
 
@@ -81,6 +82,23 @@ exports.getEventForm = async (req, res, next) => {
             },
             data,
             members
+        });
+    } catch (err) {
+        next(err);
+    }
+}
+
+exports.getProfile = async (req, res, next) => {
+    try {
+        const member = await Member.findOne({ stdno: req.user.username });
+        const user = await User.findOne({ username: req.user.username });
+        return res.status(200).render('admin/profile', {
+            page_title: `${user.username} ~ Profile`,
+            user: {
+                username: '2011093',
+                role: 'admin'
+            },
+            member
         });
     } catch (err) {
         next(err);
