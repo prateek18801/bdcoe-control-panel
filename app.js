@@ -6,12 +6,14 @@ require('./utils/db').connect();
 const apiRouter = require('./routes/api');
 const authRouter = require('./routes/auth');
 const adminRouter = require('./routes/admin');
+const authentication = require('./middlewares/authentication');
 
 const app = express();
 
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(cookieparser());
+app.use(authentication);
 app.set('view engine', 'ejs');
 
 app.get('/', (req, res, next) => {
