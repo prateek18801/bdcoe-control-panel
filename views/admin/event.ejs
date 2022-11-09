@@ -6,11 +6,7 @@
             <div class="container">
                 <% data.forEach(event=> { %>
                     <div class="card my-3" id="#<%= event.code %>">
-                        <div class="card-header">
-                            <b>
-                                <%= event.eventname %> - <%= event.code %>
-                            </b>
-                        </div>
+                        <h5 class="card-header"><%= event.eventname %> - <%= event.code %></h5>
                         <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="true">
                             <div class="carousel-indicators">
                                 <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0"
