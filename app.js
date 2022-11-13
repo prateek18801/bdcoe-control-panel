@@ -13,7 +13,6 @@ const app = express();
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(cookieparser());
-app.use(authentication);
 app.set('view engine', 'ejs');
 
 app.get('/', (req, res, next) => {
@@ -21,8 +20,8 @@ app.get('/', (req, res, next) => {
 });
 
 app.use('/api', apiRouter);
-app.use('/auth', authRouter);
-app.use('/admin', adminRouter);
+app.use('/auth', authentication, authRouter);
+app.use('/admin', authentication, adminRouter);
 
 app.use((err, req, res, next) => {
     res.status(500).json({ message: err.message });
