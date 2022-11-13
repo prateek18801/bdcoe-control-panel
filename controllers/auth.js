@@ -46,6 +46,13 @@ exports.postLogin = async (req, res, next) => {
     }
 }
 
+exports.getLogout = (req, res, next) => {
+    return res.cookie('auth', '', {
+        httpOnly: true,
+        maxAge: 0
+    }).status(300).redirect('/auth/login');
+}
+
 exports.postSignup = async (req, res, next) => {
     const { username, password, email, role } = req.body;
     try {
