@@ -73,6 +73,19 @@ exports.getEventForm = async (req, res, next) => {
     }
 }
 
+exports.getConfig = async (req, res, next) => {
+    try {
+        const data = await Config.findOne({});
+        return res.status(200).render('admin/config', {
+            page_title: 'Configuration',
+            user: req.user,
+            data
+        });
+    } catch (err) {
+        next(err);
+    }
+}
+
 exports.getProfile = async (req, res, next) => {
     try {
         const member = await Member.findOne({ stdno: req.user.username });
@@ -148,7 +161,7 @@ exports.postMember = async (req, res, next) => {
         imageUrl: req.body.imageUrl.length === 0 ? undefined : req.body.imageUrl,
         github: req.body.github.length === 0 ? undefined : req.body.github,
         linkedin: req.body.linkedin.length === 0 ? undefined : req.body.linkedin,
-        website: req.body.website.length === 0 ? undefined : req.body.github
+        website: req.body.website.length === 0 ? undefined : req.body.website
     }
 
     try {
