@@ -17,6 +17,8 @@ router.get('/r/event/:code?', authorization('admin'), adminController.getEventFo
 
 router.get('/profile', authorization('member'), adminController.getProfile);
 
+router.get('/config', authorization('admin'), adminController.getConfig);
+
 // API
 
 router.get('/toggle', authorization('admin'), adminController.toggleRegistration);
