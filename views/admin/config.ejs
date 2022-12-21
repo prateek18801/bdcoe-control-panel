@@ -1,0 +1,20 @@
+<%- include("../partials/head.ejs") %>
+    </head>
+
+    <body>
+        <%- include("../partials/navbar.ejs") %>
+            <div class="container my-3">
+                <form action="/admin/config" method="POST">
+                    <div class="mb-3">
+                        <label for="upcoming_event" class="form-label">Upcoming Event</label>
+                        <input type="text" name="upcoming_event" class="form-control" value="<%= data && data.eventname %>">
+                    </div>
+                    <div class="mb-3">
+                        <label for="registration" class="form-label">Upcoming Event</label>
+                        <input type="text" name="registration" class="form-control" value="<%= data && data.eventname %>">
+                    </div>
+                </form>
+            </div>
+    </body>
+
+    </html>
