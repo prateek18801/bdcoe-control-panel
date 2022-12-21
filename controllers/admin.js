@@ -19,7 +19,7 @@ exports.getDashboard = (req, res, next) => {
 
 exports.getMembers = async (req, res, next) => {
     try {
-        const data = await Member.find({}).sort({ graduation: -1 }).limit(3).lean();
+        const data = await Member.find({}).sort({ graduation: -1, fullname: 1 }).lean();
         return res.status(200).render('admin/member', {
             page_title: 'BDCOE ~ Members',
             user: req.user,
