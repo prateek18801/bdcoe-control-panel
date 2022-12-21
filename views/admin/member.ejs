@@ -3,7 +3,8 @@
 
     <body>
         <%- include("../partials/navbar.ejs") %>
-            <div class="container my-5">
+            <div class="container my-3">
+                <h2 class="mb-3">Team Members</h2>
                 <% data.forEach(member=> { %>
                     <div class="card mb-3" id="<%= member.stdno %>" style="max-width: 540px;">
                         <div class="row g-0">
