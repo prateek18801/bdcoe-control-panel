@@ -89,9 +89,8 @@ exports.getConfig = async (req, res, next) => {
 exports.getProfile = async (req, res, next) => {
     try {
         const member = await Member.findOne({ stdno: req.user.username });
-        const user = await User.findOne({ username: req.user.username });
         return res.status(200).render('admin/profile', {
-            page_title: `${user.username} ~ Profile`,
+            page_title: `${req.user.username} ~ Profile`,
             user: req.user,
             member
         });
