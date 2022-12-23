@@ -43,7 +43,7 @@ const memberSchema = new mongoose.Schema({
     },
     coordinator: {
         type: Boolean,
-        required: true
+        default: false
     },
     linkedin: {
         type: String,
