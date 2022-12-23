@@ -32,11 +32,7 @@ const eventSchema = new mongoose.Schema({
     },
     budget: {
         type: Number
-    },
-    coordinators: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Member'
-    }]
+    }
 }, {timestamps: true});
 
 module.exports = mongoose.model('Event', eventSchema);
