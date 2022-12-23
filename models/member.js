@@ -33,6 +33,9 @@ const memberSchema = new mongoose.Schema({
         type: Number,
         required: true
     },
+    dob: {
+        type: Date
+    },
     domain: {
         type: String,
         enum: ['FS', 'BE', 'FE', 'AD', 'ML', 'CP', 'DE'],
