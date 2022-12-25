@@ -3,9 +3,9 @@
 
     <body>
         <%- include("../partials/navbar.ejs") %>
-            <div class="container">
+            <div class="container d-flex flex-column align-items-center">
                 <h2 class="my-4"><%= data ? "Update Member Details" : "Add Member Details" %> </h2>
-                <form action="/admin/r/member" method="POST" style="max-width: 60rem;">
+                <form action="/admin/r/member" method="POST" style="width: 100%; max-width: 60rem;">
                     <% if (data) { %>
                         <div class="mb-3">
                             <input type="text" name="_id" class="form-control" value="<%= data._id %>" disabled>
