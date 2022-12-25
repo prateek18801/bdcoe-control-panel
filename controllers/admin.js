@@ -32,7 +32,7 @@ exports.getMembers = async (req, res, next) => {
 
 exports.getEvents = async (req, res, next) => {
     try {
-        const data = await Event.find({}).sort({ end: -1 }).populate('coordinators', '_id fullname stdno').lean();
+        const data = await Event.find({}).sort({ end: -1 }).lean();
         return res.status(200).render('admin/event', {
             page_title: 'BDCOE ~ Events',
             user: req.user,
@@ -60,7 +60,7 @@ exports.getMemberForm = async (req, res, next) => {
 exports.getEventForm = async (req, res, next) => {
     const code = req.params.code && req.params.code.toUpperCase();
     try {
-        const data = await Event.findOne({ code }).populate('coordinators', '_id fullname stdno').lean();
+        const data = await Event.findOne({ code }).lean();
         return res.status(200).render('admin/event-form', {
             page_title: code ? 'Update Event Details' : 'Add Event',
             user: req.user,
