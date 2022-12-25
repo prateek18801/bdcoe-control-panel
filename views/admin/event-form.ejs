@@ -13,11 +13,11 @@
                     <% } %>
                     <div class="mb-3">
                         <label for="eventname" class="form-label">Event Name</label>
-                        <input type="text" name="eventname" class="form-control" value="<%= data && data.eventname %>">
+                        <input type="text" name="eventname" class="form-control" value="<%= data && data.eventname %>" required>
                     </div>
                     <div class="mb-3">
                         <label for="code" class="form-label">Event Code</label>
-                        <input type="text" name="code" class="form-control" value="<%= data && data.code %>">
+                        <input type="text" name="code" class="form-control" value="<%= data && data.code %>" required>
                     </div>
                     <div class="mb-3">
                         <label for="tag" class="form-label">Tagline</label>
@@ -37,6 +37,14 @@
                             <input type="date" class="form-control" name="end" value="<%= data && new Date(data.end).toISOString().split('T')[0]%>">
                         </div>
                     </div>
+                    <div id="image-links">
+                        <label for="images" class="form-label">Images</label>
+                        <% data && data.images && data.images.forEach(image => { %>
+                            <input type="text" class="form-control mb-1" name="images" value="<%= image %>">
+                        <% }) %>
+                        <input type="text" class="form-control mb-1" name="images">
+                    </div>
+                    <button type="button" class="btn btn-secondary mb-3" onclick="addImage()">Add Image</button>
                     <div class="mb-3">
                         <label for="participants" class="form-label">No. of participants</label>
                         <input type="number" name="participants" class="form-control" value="<%= data && data.participants %>">
@@ -51,5 +59,20 @@
                 </form>
             </div>
     </body>
+    <script>
+        function addImage() {
+            const images = document.getElementById('image-links').children;
+            if(images[images.length - 1].value.length === 0) {
+                images[images.length - 1].focus();
+                return;
+            }
+            const field = document.createElement('input');
+            field.setAttribute('type', 'text');
+            field.setAttribute('name', 'images');
+            field.setAttribute('class', 'form-control mb-1');
+            document.getElementById('image-links').appendChild(field);
+            field.focus();
+        }
+    </script>
 
     </html>
