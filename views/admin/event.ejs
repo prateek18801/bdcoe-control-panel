@@ -65,12 +65,6 @@
                                 <div class="card-text">
                                     Participants: <%= event.participants %>
                                 </div>
-                                <div class="card-text">
-                                    Coordinators:
-                                    <% event.coordinators.forEach(coordinator => { %>
-                                         <%= coordinator.fullname %>(<%= coordinator.stdno %>)  
-                                    <% }) %>
-                                </div>
                             </small>    
                             <p class="card-text"><small class="text-muted">
                                     Last updated: <%= new Date(event.updatedAt).toLocaleString().toUpperCase() %>
