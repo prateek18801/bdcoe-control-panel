@@ -178,10 +178,11 @@ exports.postMember = async (req, res, next) => {
 }
 
 exports.postEvent = async (req, res, next) => {
+
     const data = {
         ...req.body,
         code: req.body.code && req.body.code.toUpperCase(),
-        coordinators: req.body.coordinators || []
+        images: req.body.images && (Array.isArray(req.body.images) ? req.body.images.filter(img => img) : undefined)
     }
 
     try {
