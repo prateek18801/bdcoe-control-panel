@@ -3,7 +3,10 @@
 
     <body>
         <%- include("../partials/navbar.ejs") %>
-            <div class="container my-3">
+        <div class="container my-3">
+        <% if(!member) { %>
+            <h2 class="mb-3">Not Registered Member</h2>
+        <% } else {%> 
                 <div class="card mb-3" id="<%= member.stdno %>" style="max-width: 540px;">
                     <div class="row g-0">
                         <div class="col-md-4">
@@ -25,13 +28,12 @@
                                     <a href="<%= member.website %>" target="_blank" class="link-dark <%= member.website ? '' : 'd-none' %>"><i class="bi bi-globe"></i></a>
                                 </div>
                                 <p class="card-text"><small class="text-muted">Last updated: <%= new Date(member.updatedAt).toLocaleString().toUpperCase() %></small></p>
-                                <a href="/admin/r/member/<%= member.stdno %>" class="btn btn-warning">Update</a>
-                                <button class="btn btn-danger" onclick="deleteMember('<%= member._id %>')">Delete</button>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="card">
+        <% } %> 
+                <div class="card my-3" style="max-width: 40rem;">
                     <h5 class="card-header">Change Password</h5>
                     <div class="card-body">
                         <form action="/auth/password/update" method="POST">
@@ -51,7 +53,7 @@
                         </form>
                     </div>
                 </div>
-            </div>
+        </div>
     </body>
     <script>
 
