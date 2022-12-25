@@ -45,13 +45,6 @@
                         <label for="budget" class="form-label">Budget</label>
                         <input type="number" name="budget" class="form-control" value="<%= data && data.budget %>">
                     </div>
-                    <div class="mb-3">
-                        <div><label for="" class="form-label">Coordinators</label></div>
-                        <% members.forEach(member => { %>
-                            <input type="checkbox" class="form-check-input" name="coordinators" value="<%= member._id %>">
-                            <label for="coodinators"><%= member.fullname %> - <%= member.stdno %></label>
-                        <% }) %>
-                        </div>
                     <button type="submit" class="btn btn-primary mb-4">
                         <%= data ? "Update" : "Submit" %>
                     </button>
