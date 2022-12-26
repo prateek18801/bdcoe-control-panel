@@ -191,17 +191,11 @@ exports.postEvent = async (req, res, next) => {
         if (existing) {
             Object.keys(data).forEach(key => existing[key] = data[key]);
             const updated = await existing.save();
-            return res.status(200).json({
-                message: 'updated',
-                data: updated
-            });
+            return res.status(300).redirect('/admin/v/event');
         }
 
         const saved = await new Event({ ...data }).save();
-        return res.status(201).json({
-            message: 'created',
-            data: saved
-        });
+        return res.status(300).redirect('/admin/v/event');
 
     } catch (err) {
         next(err);
@@ -244,21 +238,21 @@ exports.downloadEventData = async (req, res, next) => {
 
 exports.downloadMemberData = async (req, res, next) => {
     try {
-        // const jsondata = await Member.find({}, '-__v -createdAt -updatedAt').sort({graduation: -1}).lean();
-        const jsondata = [
-            { a: 10, b: 20 },
-            { a: 10, b: 20, c: 30 },
-            { a: 10, b: 20 },
-            { a: 10 },
-        ]
+       // const jsondata = await Member.find({}, '-__v -createdAt -updatedAt').sort({graduation: -1}).lean();
+       const jsondata = [
+        { a: 10, b: 20 },
+        { a: 10, b: 20, c: 30 },
+        { a: 10, b: 20 },
+        { a: 10 },
+    ]
 
-        const config = [
-            { key: 'a', field: 'apple' },
-            { key: 'b', field: 'banana' },
-            { key: 'c', field: 'chaman' }
-        ]
+    const config = [
+        { key: 'a', field: 'apple' },
+        { key: 'b', field: 'banana' },
+        { key: 'c', field: 'chaman' }
+    ]
 
-        const CSV = jsontocsv(jsondata);
+    const CSV = jsontocsv(jsondata);
         const PATH = path.join(require.main.filename, '..', 'data', 'bdcoe_members.csv');
         fs.writeFileSync(PATH, CSV);
         return res.download(PATH);
