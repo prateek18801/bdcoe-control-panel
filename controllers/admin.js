@@ -233,7 +233,28 @@ exports.downloadRegistrationData = async (req, res, next) => {
 }
 
 exports.downloadEventData = async (req, res, next) => {
+    try {
+        const jsondata = await Event.find({}).sort({ start: -1 }).lean();
 
+        const config = [
+            { key: '_id', field: 'ID' },
+            { key: 'eventname', field: 'Event name' },
+            { key: 'code', field: 'Event code' },
+            { key: 'tag', field: 'Tagline' },
+            { key: 'description', field: 'Description' },
+            { key: 'start', field: 'Start' },
+            { key: 'end', field: 'End' },
+            { key: 'participants', field: 'Participants' },
+            { key: 'budget', field: 'Budget' }
+        ];
+
+        const CSV = jsontocsv(jsondata, config);
+        const PATH = path.join(require.main.filename, '..', 'data', 'bdcoe_events.csv');
+        fs.writeFileSync(PATH, CSV);
+        return res.download(PATH);
+    } catch (err) {
+        next(err);
+    }
 }
 
 exports.downloadMemberData = async (req, res, next) => {
