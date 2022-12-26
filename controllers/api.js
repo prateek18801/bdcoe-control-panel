@@ -68,3 +68,21 @@ exports.postRegister = async (req, res, next) => {
         next(err);
     }
 }
+
+exports.postContact = async (req, res, next) => {
+    const data = {
+        ...req.body
+    }
+
+    try {
+        // check for captcha validity
+
+        const saved = await new Contact(data).save();
+        return res.status(201).json({
+            message: 'created',
+            data: saved
+        });
+    } catch(err) {
+        next(err);
+    }
+}
