@@ -238,21 +238,27 @@ exports.downloadEventData = async (req, res, next) => {
 
 exports.downloadMemberData = async (req, res, next) => {
     try {
-       // const jsondata = await Member.find({}, '-__v -createdAt -updatedAt').sort({graduation: -1}).lean();
-       const jsondata = [
-        { a: 10, b: 20 },
-        { a: 10, b: 20, c: 30 },
-        { a: 10, b: 20 },
-        { a: 10 },
-    ]
+        const jsondata = await Member.find({}).sort({ graduation: -1, fullname: 1 }).lean();
 
-    const config = [
-        { key: 'a', field: 'apple' },
-        { key: 'b', field: 'banana' },
-        { key: 'c', field: 'chaman' }
-    ]
+        const config = [
+            { key: '_id', field: 'ID' },
+            { key: 'fullname', field: 'Name' },
+            { key: 'stdno', field: 'Std. no' },
+            { key: 'email', field: 'Email' },
+            { key: 'contact', field: 'Contact' },
+            { key: 'branch', field: 'Branch' },
+            { key: 'section', field: 'Section' },
+            { key: 'graduation', field: 'Batch' },
+            { key: 'domain', field: 'Domain' },
+            { key: 'dob', field: 'DOB' },
+            { key: 'imageUrl', field: 'Image' },
+            { key: 'linkedin', field: 'Linkedin' },
+            { key: 'github', field: 'Github' },
+            { key: 'website', field: 'Website' },
+            { key: 'coordinator', field: 'Coordinator' }
+        ];
 
-    const CSV = jsontocsv(jsondata);
+        const CSV = jsontocsv(jsondata, config);
         const PATH = path.join(require.main.filename, '..', 'data', 'bdcoe_members.csv');
         fs.writeFileSync(PATH, CSV);
         return res.download(PATH);
