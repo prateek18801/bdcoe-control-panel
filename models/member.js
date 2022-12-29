@@ -6,7 +6,7 @@ const memberSchema = new mongoose.Schema({
         required: true
     },
     stdno: {
-        type: Number,
+        type: String,
         required: true,
         unique: true
     },
