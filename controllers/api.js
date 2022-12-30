@@ -6,17 +6,16 @@ const Registration = require('../models/registration');
 
 exports.getStatus = async (req, res, next) => {
     try {
-        const config = await Config.find({}).sort({ createdAt: -1 }).limit(1);
+        const config = await Config.findOne({}, '-_id -__v').sort({ createdAt: -1 }).lean();
         if (!config) {
-            const error = new Error('configuration not set');
-            error.code = 500;
-            throw error;
+            return res.status(200).json({
+                message: 'failed'
+            });
         }
+        console.log(config);
         return res.status(200).json({
             message: 'success',
-            status: config.registration,
-            event: config.upcoming_event,
-            modified: config.modified
+            data: config
         });
     } catch (err) {
         next(err);
