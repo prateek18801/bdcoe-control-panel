@@ -102,16 +102,12 @@ exports.getProfile = async (req, res, next) => {
 
 exports.toggleRegistration = async (req, res, next) => {
     try {
-        const config = await Config.findOne({});
-        if (!config) {
-            const saved = await new Config({ registration: false, modified: Date.now() }).save();
-            return res.status(201).json({
-                message: 'created',
-                data: saved
-            });
-        }
-        config.registration = !config.registration;
-        config.modified = Date.now();
+        const config = await Config.findOne({}).sort({ createdAt: -1 });
+        
+        if (!config) return res.status(300).redirect('/admin/config');
+        
+        config.form_status = !config.form_status;
+        config.modified_by = req.user.username;
         const saved = await config.save();
         return res.status(200).json({
             message: 'modified',
@@ -125,10 +121,11 @@ exports.toggleRegistration = async (req, res, next) => {
 
 exports.postConfig = async (req, res, next) => {
     const data = {
-        ...req.body
+        ...req.body,
+        modified_by: req.user.username
     }
     try {
-        const config = await Config.findOne({});
+        const config = await Config.findOne({ event_code: data.event_code });
         if (!config) {
             const saved = await new Config({ ...data }).save();
             return res.status(201).json({
