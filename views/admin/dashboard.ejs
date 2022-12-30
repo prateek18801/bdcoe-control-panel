@@ -7,14 +7,16 @@
                 <div class="card" style="max-width: 32rem;">
                     <div class="card-body">
                         <div class="d-flex align-items-center justify-content-between   ">
-                            <h4 class="card-title mb-0">Registration Status: <span id="status-badge"
-                                    class="badge bg-secondary">loading...</span></h4>
-                            <button type="button" class="btn btn-primary" onclick="fetchStatus()"><i
-                                    class="bi bi-arrow-clockwise"></i></button>
+                            <h4 class="card-title mb-0">
+                                Registration Status: 
+                                <span id="status-badge" class="badge bg-secondary">loading...</span>
+                            </h4>
+                            <button type="button" class="btn btn-primary" onclick="fetchStatus()">
+                                <i class="bi bi-arrow-clockwise"></i>
+                            </button>
                         </div>
                         <div class="alert alert-primary mt-3" id="status-updated-at">loading...</div>
-                        <button type="button" id="toggle-btn" class="btn btn-secondary"
-                            onclick="toggleRegistration()">loading...</button>
+                        <button type="button" id="toggle-btn" class="btn btn-secondary"onclick="toggleRegistration()">loading...</button>
                     </div>
                 </div>
 
@@ -33,7 +35,7 @@
                 document.getElementById('toggle-btn').classList.remove('btn-success');
                 document.getElementById('toggle-btn').classList.add('btn-danger');
                 document.getElementById('status-badge').innerText = 'Open';
-                document.getElementById('status-updated-at').innerHTML = new Date(json.data.updatedAt).toString();
+                document.getElementById('status-updated-at').innerHTML = `${new Date(json.data.updatedAt).toString()} [${json.data.modified_by}]`;
                 document.getElementById('toggle-btn').innerHTML = 'Close Registrations';
             } else {
                 document.getElementById('status-badge').classList.remove('bg-success');
@@ -41,7 +43,7 @@
                 document.getElementById('toggle-btn').classList.remove('btn-danger');
                 document.getElementById('toggle-btn').classList.add('btn-success');
                 document.getElementById('status-badge').innerText = 'Closed';
-                document.getElementById('status-updated-at').innerHTML = new Date(json.data.updatedAt).toString();
+                document.getElementById('status-updated-at').innerHTML = `${new Date(json.data.updatedAt).toString()} [${json.data.modified_by}]`;
                 document.getElementById('toggle-btn').innerHTML = 'Open Registrations';
             }
         }
