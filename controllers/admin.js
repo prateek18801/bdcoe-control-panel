@@ -127,18 +127,12 @@ exports.postConfig = async (req, res, next) => {
     try {
         const config = await Config.findOne({ event_code: data.event_code });
         if (!config) {
-            const saved = await new Config({ ...data }).save();
-            return res.status(201).json({
-                message: 'created',
-                data: saved
-            });
+            await new Config(data).save();
+            return res.status(300).redirect('/admin/dashboard');
         }
         Object.keys(data).forEach(key => config[key] = data[key]);
-        const updated = await config.save();
-        return res.status(200).json({
-            message: 'updated',
-            data: updated
-        });
+        await config.save();
+        return res.status(300).redirect('/admin/dashboard');
     } catch (err) {
         next(err);
     }
