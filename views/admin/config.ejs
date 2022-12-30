@@ -3,16 +3,31 @@
 
     <body>
         <%- include("../partials/navbar.ejs") %>
-            <div class="container my-3">
-                <form action="/admin/config" method="POST">
+            <div class="container d-flex flex-column align-items-center">
+                <h2 class="my-4">
+                    <%= data ? "Update Configuration" : "Add Configuration" %>
+                </h2>
+                <form action="/admin/config" method="POST" style="width: 100%; max-width: 60rem;">
                     <div class="mb-3">
-                        <label for="upcoming_event" class="form-label">Upcoming Event</label>
-                        <input type="text" name="upcoming_event" class="form-control" value="<%= data && data.eventname %>">
+                        <label for="upcoming-event" class="form-label">Upcoming Event</label>
+                        <input type="text" name="upcoming_event" class="form-control" id="upcoming-event" value="<%= data && data.upcoming_event %>">
                     </div>
                     <div class="mb-3">
-                        <label for="registration" class="form-label">Upcoming Event</label>
-                        <input type="text" name="registration" class="form-control" value="<%= data && data.eventname %>">
+                        <label for="event-code" class="form-label">Event Code</label>
+                        <input type="text" name="event_code" class="form-control" id="event-code" value="<%= data && data.event_code %>">
                     </div>
+                    <div class="mb-3">
+                        <label for="form-status" class="form-label">Form Status</label>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="form_status" id="form-status-closed" value="false" checked>
+                            <label class="form-check-label" for="form-status-closed">Closed</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="form_status" id="form-status-open" value="true">
+                            <label class="form-check-label" for="form-status-open">Open</label>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary mb-4">Upload</button>
                 </form>
             </div>
     </body>
