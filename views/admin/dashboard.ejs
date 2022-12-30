@@ -18,20 +18,22 @@
                     </div>
                 </div>
 
-                
+
             </div>
     </body>
     <script>
         async function fetchStatus() {
             const response = await fetch('/api/v1/status');
             const json = await response.json();
-            if (json.status) {
+            if (json.message === 'failed') return;
+
+            if (json.data.form_status) {
                 document.getElementById('status-badge').classList.remove('bg-danger');
                 document.getElementById('status-badge').classList.add('bg-success');
                 document.getElementById('toggle-btn').classList.remove('btn-success');
                 document.getElementById('toggle-btn').classList.add('btn-danger');
                 document.getElementById('status-badge').innerText = 'Open';
-                document.getElementById('status-updated-at').innerHTML = new Date(json.modified).toString();
+                document.getElementById('status-updated-at').innerHTML = new Date(json.data.updatedAt).toString();
                 document.getElementById('toggle-btn').innerHTML = 'Close Registrations';
             } else {
                 document.getElementById('status-badge').classList.remove('bg-success');
@@ -39,26 +41,27 @@
                 document.getElementById('toggle-btn').classList.remove('btn-danger');
                 document.getElementById('toggle-btn').classList.add('btn-success');
                 document.getElementById('status-badge').innerText = 'Closed';
-                document.getElementById('status-updated-at').innerHTML = new Date(json.modified).toString();
+                document.getElementById('status-updated-at').innerHTML = new Date(json.data.updatedAt).toString();
                 document.getElementById('toggle-btn').innerHTML = 'Open Registrations';
             }
         }
 
         async function toggleRegistration() {
             const text = prompt('Type CONFIRM to change:');
-            if(text !== 'CONFIRM') {
+            if (text !== 'CONFIRM') {
                 alert('Action not performed');
                 return;
             };
             const response = await fetch('/admin/toggle');
+            if (response.redirected) return location.href = response.url;
             const json = await response.json();
-            if (json.data.registration) {
+            if (json.data.form_status) {
                 document.getElementById('status-badge').classList.remove('bg-danger');
                 document.getElementById('status-badge').classList.add('bg-success');
                 document.getElementById('toggle-btn').classList.remove('btn-success');
                 document.getElementById('toggle-btn').classList.add('btn-danger');
                 document.getElementById('status-badge').innerText = 'Open';
-                document.getElementById('status-updated-at').innerHTML = new Date(json.data.modified).toString();
+                document.getElementById('status-updated-at').innerHTML = new Date(json.data.updatedAt).toString();
                 document.getElementById('toggle-btn').innerHTML = 'Close Registrations';
             } else {
                 document.getElementById('status-badge').classList.remove('bg-success');
@@ -66,7 +69,7 @@
                 document.getElementById('toggle-btn').classList.remove('btn-danger');
                 document.getElementById('toggle-btn').classList.add('btn-success');
                 document.getElementById('status-badge').innerText = 'Closed';
-                document.getElementById('status-updated-at').innerHTML = new Date(json.data.modified).toString();
+                document.getElementById('status-updated-at').innerHTML = new Date(json.data.updatedAt).toString();
                 document.getElementById('toggle-btn').innerHTML = 'Open Registrations';
             }
         }
