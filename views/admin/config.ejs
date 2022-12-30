@@ -19,11 +19,11 @@
                     <div class="mb-3">
                         <label for="form-status" class="form-label">Form Status</label>
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="form_status" id="form-status-closed" value="false" checked>
+                            <input class="form-check-input" type="radio" name="form_status" id="form-status-closed" value="false" <%- data && data.form_status ? "" : "checked" %>>
                             <label class="form-check-label" for="form-status-closed">Closed</label>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="form_status" id="form-status-open" value="true">
+                            <input class="form-check-input" type="radio" name="form_status" id="form-status-open" value="true"  <%- data && data.form_status ? "checked" : "" %>>
                             <label class="form-check-label" for="form-status-open">Open</label>
                         </div>
                     </div>
