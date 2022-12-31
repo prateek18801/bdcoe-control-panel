@@ -221,18 +221,6 @@ exports.deleteEvent = async (req, res, next) => {
 
 exports.updateProfile = async (req, res, next) => {
     
-    const data = {
-        ...req.body,
-        stdno: req.user.username,
-        email: req.body.email && req.body.email.toLowerCase(),
-        branch: req.body.branch && req.body.branch.toUpperCase(),
-        domain: req.body.domain && req.body.domain.toUpperCase(),
-        imageUrl: req.body.imageUrl.length === 0 ? undefined : req.body.imageUrl,
-        github: req.body.github.length === 0 ? undefined : req.body.github,
-        linkedin: req.body.linkedin.length === 0 ? undefined : req.body.linkedin,
-        website: req.body.website.length === 0 ? undefined : req.body.website
-    }
-
     try {
         const existing = await Member.findOne({ stdno: req.user.username });
         if (!existing) {
@@ -240,6 +228,21 @@ exports.updateProfile = async (req, res, next) => {
             error.code = 400;
             next(error);
         }
+
+        const data = {
+            ...req.body,
+            stdno: req.user.username,
+            email: req.body.email && req.body.email.toLowerCase(),
+            branch: req.body.branch && req.body.branch.toUpperCase(),
+            domain: req.body.domain && req.body.domain.toUpperCase(),
+            imageUrl: req.body.imageUrl && req.body.imageUrl.length ? req.body.imageUrl : undefined,
+            github: req.body.github && req.body.github.length ? req.body.github : undefined,
+            linkedin: req.body.linkedin && req.body.linkedin.length ? req.body.linkedin : undefined,
+            website: req.body.website && req.body.website.length ? req.body.website : undefined,
+            coordinator: existing.coordinator,
+            graduation: existing.graduation
+        }
+
         Object.keys(data).forEach(key => existing[key] = data[key]);
         await existing.save();
         return res.status(300).redirect('/admin/profile');
