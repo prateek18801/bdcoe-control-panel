@@ -11,7 +11,6 @@
                     <div class="row g-0">
                         <div class="col-md-4">
                             <img src="<%= member.imageUrl %>" class="img-fluid rounded-start w-100" alt="<%= member.fullname %>">
-                            <a href="https://api.qrserver.com/v1/create-qr-code/?size=500x500&data=<%= member._id %>" target="_blank">Link</a>
                         </div>
                         <div class="col-md-8">
                             <div class="card-body">
@@ -32,6 +31,81 @@
                         </div>
                     </div>
                 </div>
+                <form action="/admin/u/member" method="POST" style="width: 100%; max-width: 60rem;" class="card">
+                    <h5 class="card-header">Update Details</h5>
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <input type="text" name="_id" class="form-control" value="<%= member._id %>" disabled>
+                        </div>
+                        <div class="mb-3">
+                            <label for="fullname" class="form-label">Name</label>
+                            <input type="text" name="fullname" class="form-control" value="<%= member && member.fullname %>">
+                        </div>
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email</label>
+                            <input type="email" name="email" class="form-control" value="<%= member && member.email %>">
+                        </div>
+                        <div class="mb-3">
+                            <label for="contact" class="form-label">Contact</label>
+                            <input type="text" name="contact" class="form-control" value="<%= member && member.contact %>">
+                        </div>
+                        <div class="input-group my-4">
+                            <select class="form-select" name="branch">
+                                <option <%= !member ? 'selected' : '' %> hidden>Branch</option>
+                                <option <%= member && member.branch === 'CSE' ? 'selected' : '' %> value="CSE">CSE</option>
+                                <option <%= member && member.branch === 'CS' ? 'selected' : '' %> value="CS">CS</option>
+                                <option <%= member && member.branch === 'CSE(DS)' ? 'selected' : '' %> value="CSE(DS)">CSE(DS)</option>
+                                <option <%= member && member.branch === 'CSE(AIML)' ? 'selected' : '' %> value="CSE(AIML)">CSE(AIML)</option>
+                                <option <%= member && member.branch === 'AIML' ? 'selected' : '' %> value="AIML">AIML</option>
+                                <option <%= member && member.branch === 'IT' ? 'selected' : '' %> value="IT">IT</option>
+                                <option <%= member && member.branch === 'CSIT' ? 'selected' : '' %> value="CSIT">CSIT</option>
+                                <option <%= member && member.branch === 'ECE' ? 'selected' : '' %> value="ECE">ECE</option>
+                                <option <%= member && member.branch === 'EN' ? 'selected' : '' %> value="EN">EN</option>
+                                <option <%= member && member.branch === 'ME' ? 'selected' : '' %> value="ME">ME</option>
+                                <option <%= member && member.branch === 'CIVIL' ? 'selected' : '' %> value="CIVIL">CIVIL</option>
+                                <option <%= member && member.branch === 'OTHER' ? 'selected' : '' %> value="OTHER">OTHER</option>
+                              </select>
+    
+                              <select class="form-select" name="section">
+                                <option <%= !member ? 'selected' : '' %> hidden>Section</option>
+                                <option <%= member && member.section == '1' ? 'selected' : '' %> value="1">1</option>
+                                <option <%= member && member.section == '2' ? 'selected' : '' %> value="2">2</option>
+                                <option <%= member && member.section == '3' ? 'selected' : '' %> value="3">3</option>
+                              </select>                         
+                        </div>
+                        
+                        <select class="form-select mb-3" name="domain">
+                            <option <%= !member ? 'selected' : '' %> hidden>Domain</option>
+                            <option <%= member && member.domain === 'FS' ? 'selected' : '' %> value="FS">Full Stack Development</option>
+                            <option <%= member && member.domain === 'BE' ? 'selected' : '' %> value="BE">Backend Development</option>
+                            <option <%= member && member.domain === 'FE' ? 'selected' : '' %> value="FE">Frontend Development</option>
+                            <option <%= member && member.domain === 'AD' ? 'selected' : '' %> value="AD">Application Development</option>
+                            <option <%= member && member.domain === 'ML' ? 'selected' : '' %> value="ML">Machine Learning</option>
+                            <option <%= member && member.domain === 'CP' ? 'selected' : '' %> value="CP">Competitive Programming</option>
+                            <option <%= member && member.domain === 'DE' ? 'selected' : '' %> value="DE">UI/UX Designing</option>
+                          </select>
+    
+                        <div class="mb-3">
+                            <label for="imageUrl" class="form-label">Image URL</label>
+                            <input type="text" name="imageUrl" class="form-control" value="<%= member && member.imageUrl %>">
+                        </div>
+                        <div class="mb-3">
+                            <label for="github" class="form-label">Github Username</label>
+                            <input type="text" name="github" class="form-control" value="<%= member && member.github %>">
+                        </div>
+                        <div class="mb-3">
+                            <label for="linkedin" class="form-label">Linkedin Username</label>
+                            <input type="text" name="linkedin" class="form-control" value="<%= member && member.linkedin %>">
+                        </div>
+                        <div class="mb-3">
+                            <label for="wesite" class="form-label">Website URL</label>
+                            <input type="text" name="website" class="form-control" value="<%= member && member.website %>">
+                        </div>
+                        <button type="submit" class="btn btn-primary">
+                            <%= member ? "Update" : "Submit" %>
+                        </button>
+                    </div>
+                </form>
         <% } %> 
                 <div class="card my-3" style="max-width: 40rem;">
                     <h5 class="card-header">Change Password</h5>
@@ -49,7 +123,7 @@
                                 <label for="conf_password" class="form-label">Confirm Password</label>
                                 <input type="password" name="conf_password" class="form-control">
                             </div>
-                            <button type="submit" class="btn btn-warning">Save</button>
+                            <button type="submit" class="btn btn-warning">Update</button>
                         </form>
                     </div>
                 </div>
