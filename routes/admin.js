@@ -27,6 +27,8 @@ router.post('/config', authorization('admin'), adminController.postConfig);
 
 router.post('/r/member', authorization('admin'), adminController.postMember);
 
+router.post('/u/member', authorization('member'), adminController.updateProfile);
+
 router.post('/r/event', authorization('admin'), adminController.postEvent);
 
 router.get('/d/member/:id', authorization('admin'), adminController.deleteMember);
