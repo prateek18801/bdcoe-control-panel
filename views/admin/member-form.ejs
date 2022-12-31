@@ -84,7 +84,7 @@
                         <input type="text" name="website" class="form-control" value="<%= data && data.website %>">
                     </div>
                     <div class="form-check mb-4">
-                        <input class="form-check-input" type="checkbox" name="coordinator" value="true" id="defaultCheck1" <%= data && data.cordinator == 'true' ? 'checked' : '' %>>
+                        <input class="form-check-input" type="checkbox" name="coordinator" value="true" id="defaultCheck1" <%= data && data.coordinator ? "checked" : "" %>>
                         <label class="form-check-label" for="defaultCheck1">Coordinator</label>
                     </div>
                     <button type="submit" class="btn btn-primary mb-4">
