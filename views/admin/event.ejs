@@ -4,6 +4,7 @@
     <body>
         <%- include("../partials/navbar.ejs") %>
             <div class="container">
+                <h2 class="my-4 text-center">Events</h2>
                 <% data.forEach(event=> { %>
                     <div class="card my-3" id="#<%= event.code %>">
                         <h5 class="card-header"><%= event.eventname %> - <%= event.code %></h5>
