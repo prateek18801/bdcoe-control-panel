@@ -1,14 +1,18 @@
 const sendgrid = require('@sendgrid/mail');
+const path = require('path');
+const fs = require('fs');
 
 sendgrid.setApiKey(process.env.SENDGRID_API_KEY);
 
 exports.registerEmail = (name, email) => {
 
+    const body = fs.readFileSync(path.join(__dirname, '..', 'data', 'register_email.txt'), { encoding: 'utf-8' });
+
     const message = {
         to: `${name} <${email}>`,
         from: 'Big Data Centre of Excellence <bdcoe@akgec.ac.in>',
         subject: 'Registration Successful',
-        text: 'You have successfully resigtered for the event'
+        html: body
     }
 
     deliver(message);
@@ -16,11 +20,13 @@ exports.registerEmail = (name, email) => {
 
 exports.contactEmail = (name, email) => {
 
+    const body = fs.readFileSync(path.join(__dirname, '..', 'data', 'contact_email.txt'), { encoding: 'utf-8' });
+
     const message = {
         to: `${name} <${email}>`,
         from: 'Big Data Centre of Excellence <bdcoe@akgec.ac.in>',
         subject: 'Thank you for contacting us',
-        text: 'Thanks for getting in touch, This is an automatic response to let you know that we\'ve received your message and are working on the same. We\'ll reach out to you as soon as possible.'
+        html: body    
     }
 
     deliver(message);
