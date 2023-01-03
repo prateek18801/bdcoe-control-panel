@@ -4,6 +4,8 @@ const Config = require('../models/config');
 const Contact = require('../models/contact');
 const Registration = require('../models/registration');
 
+const { registerEmail, contactEmail } = require('../services/email');
+
 exports.getStatus = async (req, res, next) => {
     try {
         const config = await Config.findOne({}, '-_id -__v').sort({ createdAt: -1 }).lean();
@@ -12,7 +14,6 @@ exports.getStatus = async (req, res, next) => {
                 message: 'failed'
             });
         }
-        console.log(config);
         return res.status(200).json({
             message: 'success',
             data: config
@@ -59,10 +60,14 @@ exports.postRegister = async (req, res, next) => {
     }
     try {
         const saved = await new Registration({ ...data }).save();
-        return res.status(201).json({
+
+        res.status(201).json({
             message: 'created',
             data: saved
         });
+
+        registerEmail(data.name, data.email);
+
     } catch (err) {
         next(err);
     }
@@ -77,11 +82,14 @@ exports.postContact = async (req, res, next) => {
         // check for captcha validity
 
         const saved = await new Contact(data).save();
-        return res.status(201).json({
+        res.status(201).json({
             message: 'created',
             data: saved
         });
-    } catch(err) {
+
+        contactEmail(data.name, data.email);
+
+    } catch (err) {
         next(err);
     }
 }
