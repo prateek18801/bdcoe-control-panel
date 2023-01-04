@@ -79,7 +79,22 @@ exports.postContact = async (req, res, next) => {
     }
 
     try {
-        // check for captcha validity
+
+        const response = await fetch('https://www.google.com/recaptcha/api/siteverify', {
+            method: 'POST',
+            cache: 'no-cache',
+            body: JSON.stringify({
+                secret: CAPTCHAV2_SECRET_KEY,
+                response: req.body['g-recaptcha-response']
+            })
+        });
+        const json = await response.json();
+        
+        if(!json.success) {
+            return res.json({
+                message: 'captcha error'
+            });
+        }
 
         const saved = await new Contact(data).save();
         res.status(201).json({
