@@ -10,4 +10,6 @@ router.get('/v1/member/:id?', apiController.getMember);
 
 router.post('/v1/register', apiController.postRegister);
 
+router.post('/v1/contact', apiController.postContact);
+
 module.exports = router;
