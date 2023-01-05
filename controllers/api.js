@@ -80,6 +80,14 @@ exports.postContact = async (req, res, next) => {
 
     try {
 
+        // check for captcha reponse
+        if(!req.body['g-recaptcha-response']) {
+            return res.json({
+                message: 'captcha error'
+            });
+        }
+
+        // verify captcha response
         const response = await fetch('https://www.google.com/recaptcha/api/siteverify', {
             method: 'POST',
             cache: 'no-cache',
@@ -90,6 +98,7 @@ exports.postContact = async (req, res, next) => {
         });
         const json = await response.json();
         
+        // if invalid reponse (not human)
         if(!json.success) {
             return res.json({
                 message: 'captcha error'
