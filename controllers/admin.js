@@ -160,7 +160,7 @@ exports.postMember = async (req, res, next) => {
             return res.status(300).redirect('/admin/v/member');
         }
 
-        await new Member({ ...data }).save();
+        await new Member(data).save();
         return res.status(300).redirect('/admin/v/member');
 
     } catch (err) {
@@ -185,7 +185,7 @@ exports.postEvent = async (req, res, next) => {
             return res.status(300).redirect('/admin/v/event');
         }
 
-        const saved = await new Event({ ...data }).save();
+        const saved = await new Event(data).save();
         return res.status(300).redirect('/admin/v/event');
 
     } catch (err) {

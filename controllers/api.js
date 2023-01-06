@@ -50,16 +50,12 @@ exports.getMember = async (req, res, next) => {
     }
 }
 
-exports.getRegister = (req, res, next) => {
-
-}
-
 exports.postRegister = async (req, res, next) => {
     const data = {
         ...req.body
     }
     try {
-        const saved = await new Registration({ ...data }).save();
+        const saved = await new Registration(data).save();
 
         res.status(201).json({
             message: 'created',
