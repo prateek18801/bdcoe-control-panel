@@ -1,17 +1,20 @@
 <nav class="navbar navbar-expand-lg bg-light">
     <div class="container-fluid">
-        <a class="navbar-brand" href="/admin/dashboard">Big Data Centre of Excellence</a>
+        <a class="navbar-brand d-flex align-items-center" href="/admin/dashboard">
+            <img src="https://drive.google.com/uc?export=view&id=1DNvR6ViejY9Puyd4hIW19ygtu9aCBawI" alt="bdcoe" height="30">
+            &nbsp;
+            Big Data Centre of Excellence
+        </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link active" href="/admin/dashboard">Dashboard</a>
+                    <a class="nav-link <%= page_title === "BDCOE ~ Control Panel" ? "active" : "" %>" href="/admin/dashboard">Dashboard</a>
                 </li>
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                        aria-expanded="false">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         Members
                     </a>
                     <ul class="dropdown-menu">
@@ -23,8 +26,7 @@
                     </ul>
                 </li>
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                        aria-expanded="false">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         Events
                     </a>
                     <ul class="dropdown-menu">
@@ -36,12 +38,12 @@
                     </ul>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/admin/config">Configuration</a>
+                    <a class="nav-link <%= page_title === "Configuration" ? "active" : "" %>" href="/admin/config">Configuration</a>
                 </li>
             </ul>
             <ul class="navbar-nav me-5 mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <u><a class="nav-link" href="/admin/profile">Hi, <%= user.username %> [<%= user.role %>]</a></u>
+                    <u><a class="nav-link <%= page_title === (user.username + " ~ Profile") ? "active" : "" %>" href="/admin/profile">Hi, <%= user.username %> [<%= user.role %>]</a></u>
                 </li>
             </ul>
             <form action="/auth/logout" method="GET">
