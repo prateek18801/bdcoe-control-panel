@@ -38,9 +38,9 @@ exports.getEvent = async (req, res, next) => {
 }
 
 exports.getMember = async (req, res, next) => {
-    const stdno = req.params.id;
+    const year = req.params.year;
     try {
-        const data = stdno ? await Member.findOne({ stdno }, '-contact') : await Member.find({}, '-contact').sort({ graduation: -1, fullname: 1 });
+        const data = year ? await Member.find({ graduation: year }, '-contact') : await Member.find({}, '-contact').sort({ graduation: -1, fullname: 1 });
         return res.status(200).json({
             message: 'success',
             data
@@ -77,7 +77,7 @@ exports.postContact = async (req, res, next) => {
     try {
 
         // check for captcha reponse
-        if(!req.body['g-recaptcha-response']) {
+        if (!req.body['g-recaptcha-response']) {
             return res.json({
                 message: 'captcha error'
             });
@@ -93,9 +93,9 @@ exports.postContact = async (req, res, next) => {
             })
         });
         const json = await response.json();
-        
+
         // if invalid reponse (not human)
-        if(!json.success) {
+        if (!json.success) {
             return res.json({
                 message: 'captcha error'
             });
