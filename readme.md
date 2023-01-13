@@ -24,7 +24,7 @@ A web portal for managing team member details and event updates, also provides A
 ```
 
 ### Request
-`GET /api/v1/member/[id?]/`
+`GET /api/v1/member/[year?]/`
 ### Response
 ```
 {
