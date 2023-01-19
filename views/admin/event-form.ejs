@@ -37,6 +37,10 @@
                             <input type="date" class="form-control" name="end" value="<%= data && new Date(data.end).toISOString().split('T')[0]%>">
                         </div>
                     </div>
+                    <div class="mb-3">
+                        <label for="poster" class="form-label">Poster</label>
+                        <input type="text" name="poster" class="form-control" value="<%= data && data.poster %>">
+                    </div>
                     <div id="image-links">
                         <label for="images" class="form-label">Images</label>
                         <% data && data.images && data.images.forEach(image => { %>
